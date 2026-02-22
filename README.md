@@ -1,2 +1,2 @@
-# Chef-Papis-Catering
-Chef Papi's Catering website and ordering platform
+# Chef Papi's Catering
+Production website for chefpapiscatering.com
