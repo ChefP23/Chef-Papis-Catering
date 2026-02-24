@@ -44,11 +44,10 @@ function Countdown() {
         <div
           key={label}
           className="rounded-xl p-3 text-center"
-          style={{ background: 'rgba(196,30,30,0.15)', border: '1px solid rgba(196,30,30,0.3)' }}
+          style={{ background: 'rgba(196,30,30,0.35)', border: '2px solid rgba(255,255,255,0.25)' }}
         >
           <div
-            className="text-2xl font-mono text-white font-medium"
-            style={{ fontFamily: 'monospace' }}
+            style={{ fontFamily: 'monospace', fontSize: 42, fontWeight: 900, color: '#FFFFFF', textShadow: '0 0 20px rgba(255,255,255,0.5)', lineHeight: 1 }}
           >
             {String(val).padStart(2, '0')}
           </div>
