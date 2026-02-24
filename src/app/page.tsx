@@ -108,7 +108,7 @@ export default function Home() {
               Real Food.<br />Real <span style={{ color: 'var(--gold-light)' }}>Community.</span><br />Every Friday.
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.65)', marginBottom: 36, maxWidth: 480 }}>
-              Bringing restaurant-quality meals straight to MCPS, FCPS, and Frederick County school staff every Friday — plus event catering and weekly meal prep across Montgomery, Frederick, and surrounding counties in MD.
+              Bringing restaurant-quality meals straight to MCPS and FCPS school staff every Friday — plus event catering and weekly meal prep across Montgomery, Frederick, and surrounding counties in MD.
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 40 }}>
               <a href="#menu" style={{ padding: '16px 32px', borderRadius: 12, background: 'var(--red)', color: '#fff', fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>🍽️ See This Week&apos;s Menu</a>
@@ -186,7 +186,7 @@ export default function Home() {
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 16 }}>More Ways to Eat Good</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginTop: 48 }}>
             {[
-              { emoji: '🍱', title: 'Foodie Friday', desc: 'Weekly lunch delivery to MCPS, FCPS, and Frederick County schools. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
+              { emoji: '🍱', title: 'Foodie Friday', desc: 'Weekly lunch delivery to MCPS & FCPS. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
               { emoji: '🎉', title: 'Event Catering', desc: 'Corporate events, school functions, and private parties across Montgomery and Frederick County. Minimum $400. Secure your date with a 25% deposit.', color: 'linear-gradient(135deg, #1C1209, #2D1F0A)', href: '#catering' },
               { emoji: '🥗', title: 'Weekly Meal Prep', desc: '5 fresh meals per week, $100. Pay 4 weeks upfront and save 25%. Sunday pickup 6PM.', color: 'linear-gradient(135deg, #0a1f0a, #1a3d1a)', href: '#mealprep' },
             ].map((s) => (
