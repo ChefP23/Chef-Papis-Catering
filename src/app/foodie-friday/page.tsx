@@ -72,12 +72,18 @@ export default function FoodieFriday() {
 
       if (cycles && cycles.length > 0) {
         const cycleIds = cycles.map((c: any) => c.id)
-        const { data: items } = await supabase
-          .from('menu_items')
-          .select('*')
-          .in('cycle_id', cycleIds)
-          .eq('is_available', true)
-          .order('sort_order')
+        // Load items for each cycle separately and combine
+        const allItems: any[] = []
+        for (const cid of cycleIds) {
+          const { data: items } = await supabase
+            .from('menu_items')
+            .select('*')
+            .eq('cycle_id', cid)
+            .eq('is_available', true)
+            .order('sort_order')
+          if (items) allItems.push(...items)
+        }
+        const items = allItems
 
         const itemsWithCycle = (items || []).map((item: any) => {
           const cycle = cycles.find((c: any) => c.id === item.cycle_id)
@@ -150,7 +156,7 @@ export default function FoodieFriday() {
 
 
 
-  const inputStyle: React.CSSProperties = { width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.08)', color: '#fff', fontSize: 14, fontFamily: 'var(--font-dm-sans)', outline: 'none', boxSizing: 'border-box' }
+  const inputStyle: React.CSSProperties = { width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', background: '#fff', color: '#000', fontSize: 14, fontFamily: 'var(--font-dm-sans)', outline: 'none', boxSizing: 'border-box' }
 
   if (loading) return (
     <main style={{ minHeight: '100vh', background: '#0f0f0f', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -316,7 +322,7 @@ export default function FoodieFriday() {
               </div>
               <div>
                 <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Your Name</label>
-                <input value={staffName} onChange={e => setStaffName(e.target.value)} placeholder="First & Last Name" style={inputStyle} />
+                <input value={staffName} onChange={e => setStaffName(e.target.value)} placeholder="First & Last Name" style={{...inputStyle, color: '#000', background: '#fff'}} />
               </div>
             </div>
 
