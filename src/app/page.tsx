@@ -72,7 +72,8 @@ export default function Home() {
   ]
 
   const deliveryDate = cycle?.delivery_date
-    ? new Date(cycle.delivery_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+const deliveryDate = cycle?.delivery_date
+    ? new Date(cycle.delivery_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : 'March 6, 2026'
 
   return (
