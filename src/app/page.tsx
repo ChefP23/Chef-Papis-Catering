@@ -71,8 +71,7 @@ export default function Home() {
     { name: 'Principal Davis', school: 'Northwest HS', rating: 5, text: 'Used Chef Papi for our end-of-year staff celebration. Restaurant quality, everything on time, price was beyond fair. Highly recommend.' },
   ]
 
-  const deliveryDate = cycle?.delivery_date
-const deliveryDate = cycle?.delivery_date
+ const deliveryDate = cycle?.delivery_date
     ? new Date(cycle.delivery_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : 'March 6, 2026'
 
