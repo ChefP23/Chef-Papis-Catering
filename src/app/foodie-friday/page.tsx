@@ -2,79 +2,45 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
-const SCHOOLS = [
-  'Clarksburg High School','Damascus High School','Gaithersburg High School',
-  'Magruder High School','Northwest High School','Quince Orchard High School',
-  'Seneca Valley High School','Watkins Mill High School','Montgomery Blair High School',
-  'Richard Montgomery High School','Wheaton High School','Col. Zadok Magruder High School',
-  'Poolesville High School','Wootton High School','Churchill High School',
-  'Sherwood High School','Paint Branch High School','Springbrook High School',
-  'Einstein High School','Walter Johnson High School'
+// MCPS Schools
+const MCPS_ELEMENTARY = [
+  'Arcola ES','Ashburton ES','Bannockburn ES','Lucy V. Barnsley ES','Beall ES','Bel Pre ES','Bells Mill ES','Belmont ES','Bethesda ES','Beverly Farms ES','Bradley Hills ES','Brooke Grove ES','Brookhaven ES','Brown Station ES','Burning Tree ES','Burnt Mills ES','Burtonsville ES','Cabin Branch ES','Candlewood ES','Cannon Road ES','Carderock Springs ES','Rachel Carson ES','Cashell ES','Cedar Grove ES','Chevy Chase ES','Clarksburg ES','Clearspring ES','Clopper Mill ES','Cloverly ES','Cold Spring ES','College Gardens ES','Cresthaven ES','Capt. James E. Daly ES','Damascus ES','Darnestown ES','Diamond ES','Dr. Charles R. Drew ES','DuFief ES','East Silver Spring ES','Fairland ES','Fallsmead ES','Farmland ES','Fields Road ES','Flower Hill ES','Flower Valley ES','Forest Knolls ES','Fox Chapel ES','Gaithersburg ES','Galway ES','Garrett Park ES','Georgian Forest ES','Germantown ES','William B. Gibbs Jr. ES','Glen Haven ES','Glenallan ES','Goshen ES','Great Seneca Creek ES','Greencastle ES','Greenwood ES','Harmony Hills ES','Highland ES','Highland View ES','Jackson Road ES','Jones Lane ES','Kemp Mill ES','Kensington Parkwood ES','Lake Seneca ES','Lakewood ES','Laytonsville ES','JoAnn Leleck ES','Little Bennett ES','Luxmanor ES','Thurgood Marshall ES','Maryvale ES','McNair ES','Mill Creek Towne ES','Mills Farm ES','Minnehaha ES','Monocacy ES','Montgomery Knolls ES','New Hampshire Estates ES','Roscoe R. Nix ES','North Chevy Chase ES','Oak View ES','Olney ES','Quince Orchard ES','Parkland MS Feeder ES','Pinecrest ES','Piney Branch ES','Potomac ES','Redland ES','Ridgeview ES','Rolling Terrace ES','Ronald McNair ES','Rosemont ES','Rosemary Hills ES','S. Christa McAuliffe ES','Seven Locks ES','Shady Grove ES','Sherwood ES','Sligo Creek ES','Somerset ES','South Lake ES','Stedwick ES','Stone Mill ES','Stonegate ES','Strathmore ES','Strawberry Knoll ES','Summit Hall ES','Takoma Park ES','Twinbrook ES','Whetstone ES','White Oak ES','Winding Brook ES','Wood Acres ES','Woodfield ES','Woodlin ES','Wyngate ES'
 ]
 
-interface CartItem {
-  menu_item_id: string
-  item_name: string
-  item_price: number
-  quantity: number
-  for_staff_name: string
-}
+const MCPS_MIDDLE = [
+  'A. Mario Loiederman MS','Argyle MS','Barnesville School','Benjamin Banneker MS','Briggs Chaney MS','Cabin John MS','Col. Zadok Magruder MS feeder','Damascus MS','Forest Oak MS','Francis Scott Key MS','Herbert Hoover MS','Hoover MS','Julius West MS','Kingsview MS','Lakelands Park MS','Longview MS','Martin Luther King Jr. MS','Montgomery Village MS','Neelsville MS','Newport Mill MS','North Bethesda MS','Parkland MS','Pyle MS','Roberto Clemente MS','Rock Terrace School','Rocky Hill MS','Shady Grove MS','Silver Spring International MS','Sligo MS','Spartan MS','Thomas W. Pyle MS','Tilden MS','Westland MS','White Oak MS'
+]
 
-function Countdown() {
-  const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0 })
+const MCPS_HIGH = [
+  'Albert Einstein HS','Bethesda-Chevy Chase HS','Blake HS','Bullis School','Clarksburg HS','Col. Zadok Magruder HS','Damascus HS','Eleanor Roosevelt HS','Gaithersburg HS','Germantown HS','James Hubert Blake HS','John F. Kennedy HS','Judith A. Resnik ES','Kingsview MS','Lakewood HS','Largo HS','Montgomery Blair HS','Montgomery College','Northwest HS','Paint Branch HS','Poolesville HS','Quince Orchard HS','Richard Montgomery HS','Rockville HS','Seneca Valley HS','Sherwood HS','Springbrook HS','Thomas S. Wootton HS','Walter Johnson HS','Watkins Mill HS','Wheaton HS','Winston Churchill HS'
+]
 
-  useEffect(() => {
-    function getCutoff() {
-      const now = new Date()
-      const day = now.getDay()
-      const wed = new Date(now)
-      const daysToWed = (3 - day + 7) % 7 || 7
-      wed.setDate(now.getDate() + daysToWed)
-      wed.setHours(23, 59, 59, 0)
-      return wed
-    }
+// FCPS Schools (Frederick County MD)
+const FCPS_ELEMENTARY = [
+  'Ballenger Creek ES','Blue Heron ES','Brunswick ES','Butterfly Ridge ES','Carroll Manor ES','Centerville ES','Deer Crossing ES','Emmitsburg ES','Glade ES','Green Valley ES','Hillcrest ES','Kemptown ES','Lewistown ES','Liberty ES','Lincoln ES','Middletown ES','Middletown Primary School','Monocacy ES','Myersville ES','New Market ES','New Midway/Woodsboro ES','North Frederick ES','Oakdale ES','Orchard Grove ES','Parkway ES','Spring Ridge ES','Sugarloaf ES','Thurmont ES','Thurmont Primary School','Tuscarora ES','Twin Ridge ES','Urbana ES','Valley ES','Walkersville ES','Waverley ES','Whittier ES','Wolfsville ES','Yellow Springs ES'
+]
 
-    function update() {
-      const diff = getCutoff().getTime() - Date.now()
-      if (diff <= 0) return
-      setTime({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        mins: Math.floor((diff % 3600000) / 60000),
-        secs: Math.floor((diff % 60000) / 1000),
-      })
-    }
-    update()
-    const interval = setInterval(update, 1000)
-    return () => clearInterval(interval)
-  }, [])
+const FCPS_MIDDLE = [
+  'Ballenger Creek MS','Brunswick MS','Crestwood MS','Governor Thomas Johnson MS','Middletown MS','Monocacy MS','New Market MS','Oakdale MS','Thurmont MS','Urbana MS','Walkersville MS','West Frederick MS','Windsor Knolls MS'
+]
 
-  return (
-    <div style={{ display: 'flex', gap: 8 }}>
-      {[{ val: time.days, label: 'Days' }, { val: time.hours, label: 'Hrs' }, { val: time.mins, label: 'Min' }, { val: time.secs, label: 'Sec' }].map(({ val, label }) => (
-        <div key={label} style={{ background: 'rgba(196,30,30,0.15)', border: '1px solid rgba(196,30,30,0.3)', borderRadius: 8, padding: '8px 12px', textAlign: 'center', minWidth: 52 }}>
-          <div style={{ fontFamily: 'monospace', fontSize: 20, color: '#fff', fontWeight: 500 }}>{String(val).padStart(2, '0')}</div>
-          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)' }}>{label}</div>
-        </div>
-      ))}
-    </div>
-  )
-}
+const FCPS_HIGH = [
+  'Brunswick HS','Catoctin HS','Frederick HS','Governor Thomas Johnson HS','Linganore HS','Middletown HS','Oakdale HS','Tuscarora HS','Urbana HS','Walkersville HS'
+]
 
 export default function FoodieFriday() {
   const [user, setUser] = useState<any>(null)
-  const [customer, setCustomer] = useState<any>(null)
   const [cycle, setCycle] = useState<any>(null)
   const [menuItems, setMenuItems] = useState<any[]>([])
-  const [cart, setCart] = useState<CartItem[]>([])
+  const [cart, setCart] = useState<any[]>([])
   const [school, setSchool] = useState('')
+  const [district, setDistrict] = useState('')
   const [staffName, setStaffName] = useState('')
   const [loading, setLoading] = useState(true)
-  const [checkingOut, setCheckingOut] = useState(false)
-  const [showCart, setShowCart] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
+  const [proteinChoice, setProteinChoice] = useState<{ [itemId: string]: string }>({})
   const supabase = createClient()
   const router = useRouter()
 
@@ -82,16 +48,6 @@ export default function FoodieFriday() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
-
-      if (user) {
-        const { data: cust } = await supabase
-          .from('customers')
-          .select('*')
-          .eq('auth_user_id', user.id)
-          .single()
-        setCustomer(cust)
-        if (cust?.full_name) setStaffName(cust.full_name)
-      }
 
       const { data: cycleData } = await supabase
         .from('menu_cycles')
@@ -111,259 +67,257 @@ export default function FoodieFriday() {
           .order('sort_order')
         setMenuItems(items || [])
       }
-
       setLoading(false)
     }
     load()
   }, [])
 
-  function addToCart(item: any) {
+  const addToCart = (item: any) => {
+    if (item.name.toLowerCase().includes('alfredo') && !proteinChoice[item.id]) {
+      alert('Please select a protein option (Chicken, Shrimp, or Both) before adding to cart.')
+      return
+    }
+    const protein = proteinChoice[item.id]
+    const cartItem = {
+      ...item,
+      cartId: item.id + (protein || ''),
+      displayName: protein ? `${item.name} (${protein})` : item.name,
+      protein,
+      quantity: 1,
+    }
     setCart(prev => {
-      const existing = prev.find(c => c.menu_item_id === item.id)
-      if (existing) {
-        return prev.map(c => c.menu_item_id === item.id ? { ...c, quantity: c.quantity + 1 } : c)
-      }
-      return [...prev, { menu_item_id: item.id, item_name: item.name, item_price: item.price, quantity: 1, for_staff_name: staffName }]
+      const existing = prev.find(i => i.cartId === cartItem.cartId)
+      if (existing) return prev.map(i => i.cartId === cartItem.cartId ? { ...i, quantity: i.quantity + 1 } : i)
+      return [...prev, cartItem]
     })
-    setShowCart(true)
   }
 
-  function removeFromCart(id: string) {
-    setCart(prev => prev.filter(c => c.menu_item_id !== id))
+  const updateQty = (cartId: string, delta: number) => {
+    setCart(prev => prev.map(i => i.cartId === cartId ? { ...i, quantity: i.quantity + delta } : i).filter(i => i.quantity > 0))
   }
 
-  function updateQty(id: string, qty: number) {
-    if (qty <= 0) { removeFromCart(id); return }
-    setCart(prev => prev.map(c => c.menu_item_id === id ? { ...c, quantity: qty } : c))
-  }
+  const total = cart.reduce((s, i) => s + Number(i.price) * i.quantity, 0)
 
-  const cartTotal = cart.reduce((s, i) => s + i.item_price * i.quantity, 0)
-  const cartCount = cart.reduce((s, i) => s + i.quantity, 0)
+  const filteredItems = district
+    ? menuItems.filter(item => item.school_district === 'all' || item.school_district === district || !item.school_district)
+    : menuItems
 
-  async function checkout() {
+  const schoolOptions = district === 'MCPS'
+    ? [...MCPS_ELEMENTARY.map(s => ({ label: s, group: 'MCPS Elementary' })), ...MCPS_MIDDLE.map(s => ({ label: s, group: 'MCPS Middle' })), ...MCPS_HIGH.map(s => ({ label: s, group: 'MCPS High' }))]
+    : district === 'FCPS'
+    ? [...FCPS_ELEMENTARY.map(s => ({ label: s, group: 'FCPS Elementary' })), ...FCPS_MIDDLE.map(s => ({ label: s, group: 'FCPS Middle' })), ...FCPS_HIGH.map(s => ({ label: s, group: 'FCPS High' }))]
+    : []
+
+  async function handleCheckout() {
     if (!user) { router.push('/login'); return }
     if (!school) { alert('Please select your school.'); return }
     if (!staffName) { alert('Please enter your name.'); return }
     if (cart.length === 0) { alert('Your cart is empty.'); return }
-
-    setCheckingOut(true)
-
-    const res = await fetch('/api/checkout/foodie-friday', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        cycle_id: cycle.id,
-        school_id: school,
-        staff_name: staffName,
-        items: cart,
-      }),
-    })
-
-    const data = await res.json()
-
-    if (data.session_url) {
-      window.location.href = data.session_url
-    } else {
-      alert(data.error || 'Something went wrong. Please try again.')
-      setCheckingOut(false)
+    setCheckoutLoading(true)
+    try {
+      const res = await fetch('/api/checkout/foodie-friday', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart, school, staffName, cycleId: cycle.id }),
+      })
+      const data = await res.json()
+      if (data.url) window.location.href = data.url
+      else alert('Checkout error. Please try again.')
+    } catch {
+      alert('Something went wrong. Please try again.')
     }
+    setCheckoutLoading(false)
   }
 
+  const deliveryDate = cycle?.delivery_date
+    ? new Date(cycle.delivery_date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+    : 'Friday, March 6, 2026'
+
+  const inputStyle = { width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.08)', color: '#fff', fontSize: 14, fontFamily: 'var(--font-dm-sans)', outline: 'none' }
+
   if (loading) return (
-    <main style={{ minHeight: '100vh', background: 'var(--black)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 16 }}>Loading menu...</div>
+    <main style={{ minHeight: '100vh', background: '#0f0f0f', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: 'rgba(255,255,255,0.5)' }}>Loading menu...</div>
     </main>
   )
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--warm-white)' }}>
+    <main style={{ minHeight: '100vh', background: '#0f0f0f' }}>
 
       {/* HEADER */}
-      <header style={{ background: 'var(--black)', borderBottom: '2px solid var(--gold)', padding: '0 clamp(16px, 5vw, 48px)', position: 'sticky', top: 0, zIndex: 100 }}>
+      <header style={{ background: '#1a1a1a', borderBottom: '2px solid var(--gold)', padding: '0 clamp(16px, 5vw, 48px)', position: 'sticky', top: 0, zIndex: 100 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
-            <div style={{ width: 40, height: 40, background: 'var(--red)', border: '2px solid var(--gold)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-playfair)', fontSize: 14, fontWeight: 900, color: 'var(--gold)' }}>CP</div>
-            <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 16, fontWeight: 700, color: 'var(--gold-light)' }}>Chef Papi&apos;s</div>
-          </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
+              <div style={{ width: 40, height: 40, background: 'var(--red)', border: '2px solid var(--gold)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-playfair)', fontSize: 14, fontWeight: 900, color: 'var(--gold)' }}>CP</div>
+              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 18, fontWeight: 700, color: 'var(--gold-light)' }}>Chef Papi&apos;s</div>
+            </a>
+            <div style={{ background: 'rgba(212,160,23,0.2)', color: 'var(--gold)', fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 100, letterSpacing: 1 }}>FOODIE FRIDAY</div>
+          </div>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
             {user ? (
-              <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>👋 {customer?.full_name?.split(' ')[0]}</span>
+              <a href="/account" style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>My Orders →</a>
             ) : (
-              <Link href="/login" style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>Sign In</Link>
-            )}
-            {cartCount > 0 && (
-              <button onClick={() => setShowCart(!showCart)} style={{ background: 'var(--gold)', color: 'var(--black)', border: 'none', borderRadius: 8, padding: '8px 16px', fontWeight: 700, fontSize: 14, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
-                🛒 {cartCount} · ${cartTotal.toFixed(2)}
-              </button>
+              <a href="/login" style={{ padding: '8px 18px', borderRadius: 8, background: 'var(--red)', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>Sign In to Order</a>
             )}
           </div>
         </div>
       </header>
 
-      {/* ALLERGEN */}
-      <div style={{ background: '#FFF8E7', borderBottom: '1px solid rgba(212,160,23,0.3)', padding: '10px 24px', textAlign: 'center', fontSize: 13, color: 'var(--text-mid)' }}>
-        ⚠️ <strong style={{ color: '#9B1515' }}>Allergen Notice:</strong> Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy.
-      </div>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px clamp(16px, 5vw, 48px)', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px clamp(16px, 5vw, 48px)' }}>
+        {/* LEFT — MENU */}
+        <div>
+          <div style={{ marginBottom: 32 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Foodie Friday</div>
+            <h1 style={{ fontSize: 'clamp(24px, 4vw, 40px)', color: '#fff', marginBottom: 8 }}>{cycle?.title || 'This Week\'s Menu'}</h1>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>📅 Delivery: {deliveryDate} · 10AM–1PM · Main Office Drop-off</p>
+          </div>
 
-        {/* TOP BAR */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20, marginBottom: 40 }}>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 8 }}>Foodie Friday</div>
-            <h1 style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>
-              {cycle ? cycle.title : 'No Active Menu'}
-            </h1>
-            {cycle && (
-              <p style={{ fontSize: 14, color: 'var(--text-light)' }}>
-                📦 Delivery: Friday 10AM–1PM · Main Office Only · No delivery fee
+          {/* DISTRICT SELECTOR */}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 10 }}>Select Your School District to See Your Menu:</div>
+            <div style={{ display: 'flex', gap: 12 }}>
+              {['MCPS', 'FCPS'].map(d => (
+                <button key={d} onClick={() => { setDistrict(d); setSchool('') }} style={{ padding: '10px 28px', borderRadius: 10, border: `2px solid ${district === d ? 'var(--gold)' : 'rgba(255,255,255,0.15)'}`, background: district === d ? 'rgba(212,160,23,0.15)' : 'transparent', color: district === d ? 'var(--gold)' : 'rgba(255,255,255,0.5)', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)', transition: 'all 0.2s' }}>
+                  {d === 'MCPS' ? '🏫 MCPS' : '🏫 FCPS'}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* MENU ITEMS */}
+          {!district && (
+            <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 32, textAlign: 'center' }}>
+              <div style={{ fontSize: 32, marginBottom: 12 }}>🏫</div>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15 }}>Select your school district above to see this week&apos;s menu</div>
+            </div>
+          )}
+
+          {district && filteredItems.length === 0 && (
+            <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 32, textAlign: 'center' }}>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15 }}>No menu items available for {district} this week. Check back soon!</div>
+            </div>
+          )}
+
+          <div style={{ display: 'grid', gap: 16 }}>
+            {filteredItems.map(item => {
+              const isAlfredo = item.name.toLowerCase().includes('alfredo')
+              const districtTag = item.school_district === 'MCPS' ? 'MCPS Only' : item.school_district === 'FCPS' ? 'FCPS Only' : null
+              return (
+                <div key={item.id} style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 24, display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+                  <div style={{ width: 80, height: 80, background: 'linear-gradient(135deg, #2d1f0a, #3d2200)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, flexShrink: 0 }}>
+                    {isAlfredo ? '🍝' : '🍗'}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
+                      <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 18, fontWeight: 700, color: '#fff' }}>{item.name}</div>
+                      {districtTag && (
+                        <span style={{ padding: '2px 10px', borderRadius: 100, fontSize: 11, fontWeight: 700, background: districtTag === 'MCPS Only' ? 'rgba(96,165,250,0.15)' : 'rgba(34,197,94,0.15)', color: districtTag === 'MCPS Only' ? '#60a5fa' : '#22c55e' }}>
+                          {districtTag}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginBottom: 12, lineHeight: 1.5 }}>{item.description}</div>
+
+                    {/* PROTEIN CHOICE FOR ALFREDO */}
+                    {isAlfredo && (
+                      <div style={{ marginBottom: 14 }}>
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 8, fontWeight: 600 }}>SELECT PROTEIN: <span style={{ color: 'var(--gold)' }}>*Required</span></div>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                          {['Chicken', 'Shrimp', 'Chicken & Shrimp'].map(p => (
+                            <button key={p} onClick={() => setProteinChoice(prev => ({ ...prev, [item.id]: p }))} style={{ padding: '8px 16px', borderRadius: 8, border: `2px solid ${proteinChoice[item.id] === p ? 'var(--gold)' : 'rgba(255,255,255,0.15)'}`, background: proteinChoice[item.id] === p ? 'rgba(212,160,23,0.15)' : 'transparent', color: proteinChoice[item.id] === p ? 'var(--gold)' : 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)', transition: 'all 0.2s' }}>
+                              {p}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 22, fontWeight: 700, color: 'var(--gold)' }}>${Number(item.price).toFixed(2)}</div>
+                      <button onClick={() => addToCart(item)} style={{ padding: '10px 24px', background: 'var(--red)', color: '#fff', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* RIGHT — CART */}
+        <div style={{ position: 'sticky', top: 84 }}>
+          <div style={{ background: '#1a1a1a', border: '1px solid rgba(212,160,23,0.25)', borderRadius: 20, padding: 24 }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#fff', marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
+              <span>Your Order</span>
+              {cart.length > 0 && <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', fontWeight: 400 }}>{cart.reduce((s, i) => s + i.quantity, 0)} item(s)</span>}
+            </div>
+
+            {cart.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '24px 0', color: 'rgba(255,255,255,0.3)', fontSize: 14 }}>Your cart is empty</div>
+            ) : (
+              <div style={{ marginBottom: 20 }}>
+                {cart.map(item => (
+                  <div key={item.cartId} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, gap: 8 }}>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', flex: 1 }}>{item.displayName}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <button onClick={() => updateQty(item.cartId, -1)} style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+                      <span style={{ color: '#fff', fontSize: 14, minWidth: 16, textAlign: 'center' }}>{item.quantity}</span>
+                      <button onClick={() => updateQty(item.cartId, 1)} style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold)', minWidth: 52, textAlign: 'right' }}>${(Number(item.price) * item.quantity).toFixed(2)}</div>
+                  </div>
+                ))}
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 12, display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#fff', fontWeight: 700 }}>Total</span>
+                  <span style={{ color: 'var(--gold)', fontWeight: 700, fontSize: 18 }}>${total.toFixed(2)}</span>
+                </div>
+              </div>
+            )}
+
+            {/* SCHOOL + NAME */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
+              <div>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>School District</label>
+                <select value={district} onChange={e => { setDistrict(e.target.value); setSchool('') }} style={inputStyle}>
+                  <option value="">Select district...</option>
+                  <option value="MCPS">MCPS – Montgomery County</option>
+                  <option value="FCPS">FCPS – Frederick County</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Your School</label>
+                <select value={school} onChange={e => setSchool(e.target.value)} style={inputStyle} disabled={!district}>
+                  <option value="">{district ? 'Select your school...' : 'Select district first'}</option>
+                  {schoolOptions.reduce((acc: any[], item, idx, arr) => {
+                    if (idx === 0 || item.group !== arr[idx - 1].group) {
+                      acc.push(<optgroup key={item.group} label={item.group} />)
+                    }
+                    acc.push(<option key={item.label} value={item.label}>{item.label}</option>)
+                    return acc
+                  }, [])}
+                </select>
+              </div>
+              <div>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Your Name</label>
+                <input value={staffName} onChange={e => setStaffName(e.target.value)} placeholder="First & Last Name" style={inputStyle} />
+              </div>
+            </div>
+
+            <button onClick={handleCheckout} disabled={checkoutLoading || cart.length === 0} style={{ width: '100%', padding: 16, background: cart.length === 0 ? 'rgba(255,255,255,0.1)' : 'var(--gold)', color: cart.length === 0 ? 'rgba(255,255,255,0.3)' : 'var(--black)', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: cart.length === 0 ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-dm-sans)', transition: 'all 0.2s' }}>
+              {checkoutLoading ? 'Processing...' : `Checkout · $${total.toFixed(2)}`}
+            </button>
+
+            {!user && (
+              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textAlign: 'center', marginTop: 12 }}>
+                You&apos;ll be asked to sign in before payment
               </p>
             )}
           </div>
-          {cycle && (
-            <div style={{ background: 'var(--black)', borderRadius: 16, padding: '20px 24px', border: '1px solid rgba(212,160,23,0.2)' }}>
-              <div style={{ fontSize: 11, color: 'var(--gold)', fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>⏰ Order Cutoff</div>
-              <Countdown />
-            </div>
-          )}
         </div>
-
-        {!cycle ? (
-          <div style={{ textAlign: 'center', padding: '80px 20px' }}>
-            <div style={{ fontSize: 64, marginBottom: 20 }}>🍽️</div>
-            <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: 28, marginBottom: 12 }}>No Active Menu Right Now</h2>
-            <p style={{ color: 'var(--text-light)', fontSize: 16, marginBottom: 32 }}>Check back soon — new menus drop every week!</p>
-            <Link href="/" style={{ padding: '14px 28px', background: 'var(--red)', color: '#fff', borderRadius: 10, textDecoration: 'none', fontWeight: 700 }}>Back to Homepage</Link>
-          </div>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: showCart ? '1fr 380px' : '1fr', gap: 32, alignItems: 'start' }}>
-
-            {/* MENU */}
-            <div>
-              {/* ORDER DETAILS */}
-              {!user && (
-                <div style={{ background: 'linear-gradient(135deg, var(--red-dark), var(--red))', borderRadius: 16, padding: 24, marginBottom: 32, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-                  <div>
-                    <div style={{ color: '#fff', fontWeight: 700, fontSize: 16, marginBottom: 4 }}>Sign in to place your order</div>
-                    <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>You need an account to checkout</div>
-                  </div>
-                  <Link href="/login" style={{ padding: '12px 24px', background: 'var(--gold)', color: 'var(--black)', borderRadius: 10, textDecoration: 'none', fontWeight: 700, fontSize: 15 }}>Sign In / Register</Link>
-                </div>
-              )}
-
-              {user && (
-                <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, padding: 24, marginBottom: 32 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-mid)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>Your Order Details</div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                    <div>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-mid)', marginBottom: 6, display: 'block' }}>Your School *</label>
-                      <select value={school} onChange={e => setSchool(e.target.value)} style={{ width: '100%', padding: '12px 14px', borderRadius: 10, border: '1.5px solid rgba(0,0,0,0.12)', fontSize: 14, fontFamily: 'var(--font-dm-sans)', outline: 'none', cursor: 'pointer' }}>
-                        <option value="">Select School...</option>
-                        {SCHOOLS.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-mid)', marginBottom: 6, display: 'block' }}>Your Name (Staff) *</label>
-                      <input type="text" value={staffName} onChange={e => setStaffName(e.target.value)} placeholder="First & Last Name" style={{ width: '100%', padding: '12px 14px', borderRadius: 10, border: '1.5px solid rgba(0,0,0,0.12)', fontSize: 14, fontFamily: 'var(--font-dm-sans)', outline: 'none' }} />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* MENU GRID */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20 }}>
-                {menuItems.map(item => (
-                  <div key={item.id} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, overflow: 'hidden', transition: 'all 0.25s' }}>
-                    <div style={{ height: 140, background: 'linear-gradient(135deg, var(--charcoal), #3d2200)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56 }}>
-                      🍽️
-                    </div>
-                    <div style={{ padding: 16 }}>
-                      <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 17, fontWeight: 700, marginBottom: 6 }}>{item.name}</div>
-                      <div style={{ fontSize: 13, color: 'var(--text-light)', marginBottom: 14, lineHeight: 1.5 }}>{item.description}</div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 20, fontWeight: 700, color: 'var(--red)' }}>${Number(item.price).toFixed(2)}</div>
-                        <button onClick={() => addToCart(item)} style={{ padding: '8px 16px', background: 'var(--red)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
-                          + Add
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CART */}
-            {showCart && cart.length > 0 && (
-              <div style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 20, padding: 24, position: 'sticky', top: 80 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                  <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: 20 }}>Your Cart</h3>
-                  <button onClick={() => setShowCart(false)} style={{ background: 'rgba(0,0,0,0.06)', border: 'none', borderRadius: '50%', width: 28, height: 28, cursor: 'pointer', fontSize: 14 }}>✕</button>
-                </div>
-
-                {cart.map(item => (
-                  <div key={item.menu_item_id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>{item.item_name}</div>
-                      <div style={{ fontSize: 13, color: 'var(--text-light)' }}>${item.item_price.toFixed(2)} each</div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <button onClick={() => updateQty(item.menu_item_id, item.quantity - 1)} style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(0,0,0,0.15)', background: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
-                      <span style={{ fontSize: 15, fontWeight: 600, minWidth: 20, textAlign: 'center' }}>{item.quantity}</span>
-                      <button onClick={() => updateQty(item.menu_item_id, item.quantity + 1)} style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid rgba(0,0,0,0.15)', background: '#fff', cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
-                    </div>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--red)', marginLeft: 12, minWidth: 52, textAlign: 'right' }}>
-                      ${(item.item_price * item.quantity).toFixed(2)}
-                    </div>
-                  </div>
-                ))}
-
-                <div style={{ marginTop: 20, paddingTop: 16, borderTop: '2px solid rgba(0,0,0,0.08)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                    <span style={{ fontSize: 16, fontWeight: 700 }}>Total</span>
-                    <span style={{ fontFamily: 'var(--font-playfair)', fontSize: 24, fontWeight: 900, color: 'var(--red)' }}>${cartTotal.toFixed(2)}</span>
-                  </div>
-
-                  {school && staffName ? (
-                    <div style={{ background: 'var(--cream)', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'var(--text-mid)' }}>
-                      📍 {school}<br />
-                      👤 {staffName}
-                    </div>
-                  ) : (
-                    <div style={{ background: '#FFF3CD', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#856404' }}>
-                      ⚠️ Please fill in your school and name above
-                    </div>
-                  )}
-
-                  <button
-                    onClick={checkout}
-                    disabled={checkingOut || !school || !staffName}
-                    style={{ width: '100%', padding: 14, borderRadius: 10, background: (!school || !staffName || checkingOut) ? 'rgba(196,30,30,0.4)' : 'var(--red)', color: '#fff', border: 'none', fontSize: 16, fontWeight: 700, cursor: (!school || !staffName || checkingOut) ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-dm-sans)' }}
-                  >
-                    {checkingOut ? 'Redirecting to Stripe...' : '🔒 Checkout Securely'}
-                  </button>
-                  <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-light)', marginTop: 10 }}>
-                    No delivery fee · No tipping · Secure via Stripe
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
       </div>
-
-      {/* MOBILE STICKY CHECKOUT */}
-      {cartCount > 0 && (
-        <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--black)', borderTop: '2px solid var(--gold)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 90 }}>
-          <div>
-            <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>{cartCount} item{cartCount !== 1 ? 's' : ''}</div>
-            <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 22, color: 'var(--gold-light)' }}>${cartTotal.toFixed(2)}</div>
-          </div>
-          <button onClick={checkout} disabled={checkingOut} style={{ padding: '12px 28px', borderRadius: 10, background: 'var(--gold)', color: 'var(--black)', border: 'none', fontSize: 16, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
-            {checkingOut ? 'Loading...' : 'Checkout →'}
-          </button>
-        </div>
-      )}
-
     </main>
   )
 }
