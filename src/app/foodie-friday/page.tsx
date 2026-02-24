@@ -301,7 +301,7 @@ export default function FoodieFriday() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
               <div>
                 <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>School District</label>
-                <select value={district} onChange={e => { setDistrict(e.target.value); setSchool('') }} style={inputStyle}>
+                <select value={district} onChange={e => { setDistrict(e.target.value); setSchool('') }} style={{...inputStyle, color: '#000', background: '#fff'}}>
                   <option value="">Select district...</option>
                   <option value="MCPS">MCPS – Montgomery County</option>
                   <option value="FCPS">FCPS – Frederick County</option>
