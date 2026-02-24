@@ -48,7 +48,6 @@ function Countdown({ cutoff }: { cutoff: string }) {
 
 export default function FoodieFriday() {
   const [user, setUser] = useState<any>(null)
-  const [cycle, setCycle] = useState<any>(null)
   const [menuItems, setMenuItems] = useState<any[]>([])
   const [cart, setCart] = useState<any[]>([])
   const [school, setSchool] = useState('')
@@ -64,22 +63,27 @@ export default function FoodieFriday() {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
-      const { data: cycleData } = await supabase
+
+      const { data: cycles } = await supabase
         .from('menu_cycles')
         .select('*')
         .eq('status', 'published')
         .order('delivery_date', { ascending: true })
-        .limit(1)
-        .single()
-      if (cycleData) {
-        setCycle(cycleData)
+
+      if (cycles && cycles.length > 0) {
+        const cycleIds = cycles.map((c: any) => c.id)
         const { data: items } = await supabase
           .from('menu_items')
           .select('*')
-          .eq('cycle_id', cycleData.id)
+          .in('cycle_id', cycleIds)
           .eq('is_available', true)
           .order('sort_order')
-        setMenuItems(items || [])
+
+        const itemsWithCycle = (items || []).map((item: any) => {
+          const cycle = cycles.find((c: any) => c.id === item.cycle_id)
+          return { ...item, cutoff_datetime: cycle?.cutoff_datetime, delivery_date: cycle?.delivery_date }
+        })
+        setMenuItems(itemsWithCycle)
       }
       setLoading(false)
     }
@@ -133,7 +137,7 @@ export default function FoodieFriday() {
       const res = await fetch('/api/checkout/foodie-friday', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart, school, staffName, cycleId: cycle.id }),
+        body: JSON.stringify({ items: cart, school, staffName, cycleId: cart[0]?.cycle_id }),
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url
@@ -144,9 +148,7 @@ export default function FoodieFriday() {
     setCheckoutLoading(false)
   }
 
-  const deliveryDate = cycle?.delivery_date
-    ? new Date(cycle.delivery_date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
-    : 'Friday, March 6, 2026'
+
 
   const inputStyle: React.CSSProperties = { width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.08)', color: '#fff', fontSize: 14, fontFamily: 'var(--font-dm-sans)', outline: 'none', boxSizing: 'border-box' }
 
@@ -184,16 +186,19 @@ export default function FoodieFriday() {
         <div>
           <div style={{ marginBottom: 32 }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>This Week&apos;s Menu</div>
-            <h1 style={{ fontSize: 'clamp(24px, 4vw, 40px)', color: '#fff', marginBottom: 8 }}>{cycle?.title || 'Foodie Friday'}</h1>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>📅 Delivery: {deliveryDate} · 10AM–1PM · Main Office Drop-off</p>
+            <h1 style={{ fontSize: 'clamp(24px, 4vw, 40px)', color: '#fff', marginBottom: 8 }}>Foodie Friday</h1>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>📅 Delivery every Friday · 10AM–1PM · Main Office Drop-off</p>
           </div>
 
           {/* MEAL CARDS SIDE BY SIDE */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
             {menuItems.map(item => {
               const isAlfredo = item.name.toLowerCase().includes('alfredo')
+              const itemDeliveryDate = item.delivery_date
+                ? new Date(item.delivery_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                : ''
               const districtTag = item.school_district === 'MCPS' ? 'MCPS Only' : item.school_district === 'FCPS' ? 'FCPS Only' : null
-              const itemCutoff = cycle?.cutoff_datetime || ''
+              const itemCutoff = item.cutoff_datetime || ''
 
               return (
                 <div key={item.id} style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -218,6 +223,7 @@ export default function FoodieFriday() {
 
                     {/* COUNTDOWN */}
                     <div>
+                      {itemDeliveryDate && <div style={{ fontSize: 12, color: 'var(--gold)', fontWeight: 600, marginBottom: 8 }}>📅 Delivery: {itemDeliveryDate}</div>}
                       <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginBottom: 6, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>
                         ⏱ Order Cutoff
                       </div>
