@@ -56,6 +56,8 @@ export default function FoodieFriday() {
   const [loading, setLoading] = useState(true)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [proteinChoice, setProteinChoice] = useState<{ [itemId: string]: string }>({})
+  const [phone, setPhone] = useState('')
+  const [smsOptIn, setSmsOptIn] = useState(false)
   const supabase = createClient()
   const router = useRouter()
 
@@ -143,7 +145,7 @@ export default function FoodieFriday() {
       const res = await fetch('/api/checkout/foodie-friday', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart, school, staffName, cycleId: cart[0]?.cycle_id }),
+        body: JSON.stringify({ items: cart, school, staffName, cycleId: cart[0]?.cycle_id, phone: smsOptIn ? phone : null, smsOptIn }),
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url
@@ -323,6 +325,16 @@ export default function FoodieFriday() {
               <div>
                 <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Your Name</label>
                 <input value={staffName} onChange={e => setStaffName(e.target.value)} placeholder="First & Last Name" style={{...inputStyle, color: '#000', background: '#fff'}} />
+              </div>
+              <div>
+                <label style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Confirmation</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                  <input type="checkbox" id="smsOptIn" checked={smsOptIn} onChange={e => setSmsOptIn(e.target.checked)} style={{ width: 18, height: 18, cursor: 'pointer', accentColor: 'var(--gold)' }} />
+                  <label htmlFor="smsOptIn" style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', cursor: 'pointer' }}>Text me order updates (SMS)</label>
+                </div>
+                {smsOptIn && (
+                  <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="Phone number (e.g. 3015551234)" style={{...inputStyle, color: '#000', background: '#fff'}} />
+                )}
               </div>
             </div>
 

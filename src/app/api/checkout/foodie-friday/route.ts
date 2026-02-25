@@ -21,6 +21,8 @@ export async function POST(req: NextRequest) {
     const school_name = body.school || body.school_id
     const staff_name = body.staffName || body.staff_name
     const items = body.items
+    const phone = body.phone || null
+    const sms_opt_in = body.smsOptIn || false
 
     if (!cycle_id || !school_name || !staff_name || !items?.length) {
       return NextResponse.json({ error: 'Missing required order details.' }, { status: 400 })
@@ -79,6 +81,8 @@ export async function POST(req: NextRequest) {
         subtotal,
         total: subtotal,
         order_source: 'web',
+        customer_phone: phone,
+        sms_opt_in,
       })
       .select()
       .single()
