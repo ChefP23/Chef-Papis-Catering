@@ -16,9 +16,13 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { cycle_id, school_id, staff_name, items } = body
+    // Support both naming conventions
+    const cycle_id = body.cycleId || body.cycle_id
+    const school_name = body.school || body.school_id
+    const staff_name = body.staffName || body.staff_name
+    const items = body.items
 
-    if (!cycle_id || !school_id || !staff_name || !items?.length) {
+    if (!cycle_id || !school_name || !staff_name || !items?.length) {
       return NextResponse.json({ error: 'Missing required order details.' }, { status: 400 })
     }
 
@@ -38,13 +42,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Order cutoff has passed.' }, { status: 400 })
     }
 
-    // Get school
-    const { data: school } = await supabase
-      .from('schools')
-      .select('*')
-      .eq('name', school_id)
-      .single()
-
     // Get customer
     const { data: customer } = await supabase
       .from('customers')
@@ -56,8 +53,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Customer not found.' }, { status: 404 })
     }
 
-    // Calculate total
-    const subtotal = items.reduce((sum: number, i: any) => sum + i.item_price * i.quantity, 0)
+    // Calculate total from cart items
+    const subtotal = items.reduce((sum: number, i: any) => {
+      const price = Number(i.item_price || i.price || 0)
+      const qty = Number(i.quantity || 1)
+      return sum + price * qty
+    }, 0)
+
+    // Try to find school in DB (optional - don't fail if not found)
+    const { data: school } = await supabase
+      .from('schools')
+      .select('id')
+      .eq('name', school_name)
+      .maybeSingle()
 
     // Create order
     const { data: order, error: orderError } = await supabase
@@ -76,6 +84,7 @@ export async function POST(req: NextRequest) {
       .single()
 
     if (orderError || !order) {
+      console.error('Order insert error:', orderError)
       return NextResponse.json({ error: 'Failed to create order.' }, { status: 500 })
     }
 
@@ -83,10 +92,10 @@ export async function POST(req: NextRequest) {
     await supabase.from('order_items').insert(
       items.map((item: any) => ({
         order_id: order.id,
-        menu_item_id: item.menu_item_id,
-        item_name: item.item_name,
-        item_price: item.item_price,
-        quantity: item.quantity,
+        menu_item_id: item.menu_item_id || item.id,
+        item_name: item.item_name || item.displayName || item.name,
+        item_price: Number(item.item_price || item.price || 0),
+        quantity: Number(item.quantity || 1),
         for_staff_name: staff_name,
       }))
     )
@@ -96,12 +105,12 @@ export async function POST(req: NextRequest) {
       price_data: {
         currency: 'usd',
         product_data: {
-          name: item.item_name,
-          description: `Foodie Friday · ${school_id}`,
+          name: item.item_name || item.displayName || item.name,
+          description: `Foodie Friday · ${school_name}`,
         },
-        unit_amount: Math.round(item.item_price * 100),
+        unit_amount: Math.round(Number(item.item_price || item.price || 0) * 100),
       },
-      quantity: item.quantity,
+      quantity: Number(item.quantity || 1),
     }))
 
     // Create Stripe session
@@ -126,7 +135,8 @@ export async function POST(req: NextRequest) {
       .update({ stripe_session_id: session.id })
       .eq('id', order.id)
 
-    return NextResponse.json({ session_url: session.url, order_id: order.id })
+    // Return both url and session_url for compatibility
+    return NextResponse.json({ url: session.url, session_url: session.url, order_id: order.id })
 
   } catch (err: any) {
     console.error('Checkout error:', err)
