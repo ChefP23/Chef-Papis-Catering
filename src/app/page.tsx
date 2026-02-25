@@ -157,7 +157,7 @@ export default function Home() {
       <section id="mealprep" style={{ background: 'var(--black)', padding: '80px clamp(16px, 5vw, 48px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Meal Prep</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 16 }}>Stop Eating Like That</h2>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 16 }}>I Cook. You Eat.</h2>
           <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', maxWidth: 560, lineHeight: 1.65, marginBottom: 48 }}>5 fresh meals every week. Pick up Sunday at 6PM.</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, maxWidth: 600 }}>
             <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 28 }}>
