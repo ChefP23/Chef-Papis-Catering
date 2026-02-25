@@ -2,8 +2,9 @@ import { Resend } from 'resend'
 import * as twilioLib from 'twilio'
 const twilio = (twilioLib as any).default || twilioLib
 
-const resend = new Resend(process.env.RESEND_API_KEY!)
-const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!)
+// Lazy init to avoid build-time errors
+function getResend() { return new Resend(process.env.RESEND_API_KEY!) }
+function getTwilio() { return twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!) }
 
 interface OrderNotificationParams {
   customerName: string
@@ -28,7 +29,7 @@ export async function sendOrderConfirmation(params: OrderNotificationParams) {
 
   // Send email
   try {
-    await resend.emails.send({
+    await getResend().emails.send({
       from: 'Chef Papi\'s Catering <orders@chefpapiscatering.com>',
       to: customerEmail,
       subject: `✅ Order Confirmed – Chef Papi's Foodie Friday`,
@@ -98,7 +99,7 @@ export async function sendOrderConfirmation(params: OrderNotificationParams) {
   if (customerPhone) {
     try {
       const smsBody = `✅ Chef Papi's Order Confirmed!\n\n${itemsList}\n\nTotal: $${total.toFixed(2)}\nDelivery: ${deliveryDate} · ${school} Main Office\n\nQuestions? hello@chefpapiscatering.com`
-      await twilioClient.messages.create({
+      await getTwilio().messages.create({
         body: smsBody,
         from: process.env.TWILIO_PHONE_NUMBER!,
         to: customerPhone,
