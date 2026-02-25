@@ -1,5 +1,5 @@
 import { Resend } from 'resend'
-import twilio from 'twilio'
+import twilio = require('twilio')
 
 const resend = new Resend(process.env.RESEND_API_KEY!)
 const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!)
