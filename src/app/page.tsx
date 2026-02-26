@@ -66,12 +66,13 @@ export default function Home() {
               <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e', display: 'inline-block', flexShrink: 0 }}></span>
               <span style={{ fontSize: 13, fontWeight: 700, color: '#22c55e', letterSpacing: 1, textTransform: 'uppercase' }}>Order Window Open</span>
             </div>
-            {[
-              { emoji: '🍗', name: 'Jerk Chicken Plate', tag: 'MCPS Only', tagColor: '#60a5fa', desc: 'Rice & beans, buttered cabbage, candied yams' },
-              { emoji: '🍝', name: 'Chicken or Shrimp Alfredo', tag: 'FCPS Only', tagColor: '#22c55e', desc: 'Creamy fettuccine · choice of protein' },
+            {[{ image: '/images/jerk-chicken.jpg',             name: 'Jerk Chicken Plate', tag: 'MCPS Only', tagColor: '#60a5fa', desc: 'Rice & beans, buttered cabbage, candied yams' },
+              { image: '/images/alfredo.jpg', name: 'Chicken or Shrimp Alfredo', tag: 'FCPS Only', tagColor: '#22c55e', desc: 'Creamy fettuccine · choice of protein' },
             ].map(item => (
               <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 14, background: 'rgba(255,255,255,0.05)', borderRadius: 14, padding: '14px 16px' }}>
-                <div style={{ fontSize: 32, flexShrink: 0 }}>{item.emoji}</div>
+                <div style={{ width: 56, height: 56, flexShrink: 0, borderRadius: 10, overflow: 'hidden' }}>
+  <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>{item.name}</span>
