@@ -212,7 +212,14 @@ export default function FoodieFriday() {
                 <div key={item.id} style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                   {/* MEAL IMAGE */}
                   <div style={{ height: 140, background: isAlfredo ? 'linear-gradient(135deg, #0a1f2e, #1a3d2e)' : 'linear-gradient(135deg, #2d1f0a, #3d2200)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56 }}>
-                    {isAlfredo ? '🍝' : '🍗'}
+                    {/* MEAL IMAGE */}
+<div style={{ height: 140, overflow: 'hidden' }}>
+  <img
+    src={isAlfredo ? '/images/alfredo.jpg' : '/images/jerk-chicken.jpg'}
+    alt={isAlfredo ? 'Chicken or Shrimp Alfredo' : 'Jerk Chicken Plate'}
+    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+  />
+</div>
                   </div>
 
                   <div style={{ padding: 20, flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
