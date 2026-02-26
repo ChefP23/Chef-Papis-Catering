@@ -3,8 +3,8 @@ import Link from 'next/link'
 export default function Home() {
 
   const menuItems = [
-    { emoji: '🍗', name: 'Jerk Chicken Plate', desc: 'Slow-marinated jerk chicken, seasoned rice & beans, buttered cabbage, and candied yams.', price: 25, tag: 'MCPS Only', tagColor: '#60a5fa' },
-    { emoji: '🍝', name: 'Chicken or Shrimp Alfredo', desc: 'Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.', price: 25, tag: 'FCPS Only', tagColor: '#22c55e' },
+    { image: '/images/jerk-chicken.jpg', name: 'Jerk Chicken Plate' desc: 'Slow-marinated jerk chicken, seasoned rice & beans, buttered cabbage, and candied yams.', price: 25, tag: 'MCPS Only', tagColor: '#60a5fa' },
+    { image: '/images/alfredo.jpg', name: 'Chicken or Shrimp Alfredo' 'Chicken or Shrimp Alfredo', desc: 'Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.', price: 25, tag: 'FCPS Only', tagColor: '#22c55e' },
   ]
 
   const reviews = [
