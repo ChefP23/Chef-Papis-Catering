@@ -3,9 +3,8 @@ import Link from 'next/link'
 export default function Home() {
 
   const menuItems = [
-    { image: '/images/jerk-chicken.jpg', name: 'Jerk Chicken Plate' desc: 'Slow-marinated jerk chicken, seasoned rice & beans, buttered cabbage, and candied yams.', price: 25, tag: 'MCPS Only', tagColor: '#60a5fa' },
-    { image: '/images/alfredo.jpg', name: 'Chicken or Shrimp Alfredo' 'Chicken or Shrimp Alfredo', desc: 'Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.', price: 25, tag: 'FCPS Only', tagColor: '#22c55e' },
-  ]
+   { image: '/images/jerk-chicken.jpg', name: 'Jerk Chicken Plate', desc: 'Slow-marinated jerk chicken, seasoned rice & beans, buttered cabbage, and candied yams.', price: 25, tag: 'MCPS Only', tagColor: '#60a5fa' },
+    { image: '/images/alfredo.jpg', name: 'Chicken or Shrimp Alfredo', desc: 'Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.', price: 25, tag: 'FCPS Only', tagColor: '#22c55e' },
 
   const reviews = [
     { name: 'Ms. Johnson', school: 'Clarksburg HS', rating: 5, text: 'The Jerk Chicken was incredible. Every Friday my whole department gathers around the food. Chef Papi has ruined all other lunches for us!' },
@@ -108,8 +107,9 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
             {menuItems.map((item) => (
               <div key={item.name} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, overflow: 'hidden' }}>
-                <div style={{ height: 160, background: 'linear-gradient(135deg, var(--charcoal), #3d2200)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>{item.emoji}</div>
-                <div style={{ padding: 18 }}>
+<div style={{ height: 160, overflow: 'hidden' }}>
+  <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+</div>                <div style={{ padding: 18 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
                     <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 18, fontWeight: 700 }}>{item.name}</div>
                     <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100, background: `${item.tagColor}22`, color: item.tagColor }}>{item.tag}</span>
@@ -131,7 +131,7 @@ export default function Home() {
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 16 }}>More Ways to Eat Good</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginTop: 48 }}>
             {[
-              { emoji: '🍱', title: 'Foodie Friday', desc: 'Weekly lunch delivery to MCPS, FCPS, and Frederick County schools. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
+              { emoji: '🍱', title: 'Foodie Friday', desc: 'Weekly lunch delivery to Montgomery County and Frederick County schools. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
               { emoji: '🎉', title: 'Event Catering', desc: 'Corporate events, school functions, and private parties across Montgomery and Frederick County. Minimum $400. Secure your date with a 25% deposit.', color: 'linear-gradient(135deg, #1C1209, #2D1F0A)', href: '#catering' },
               { emoji: '🥗', title: 'Weekly Meal Prep', desc: '5 fresh meals per week, $100. Pay 4 weeks upfront and save 25%. Sunday pickup 6PM.', color: 'linear-gradient(135deg, #0a1f0a, #1a3d1a)', href: '#mealprep' },
             ].map((s) => (
