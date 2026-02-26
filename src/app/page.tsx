@@ -4,8 +4,8 @@ export default function Home() {
 
   const menuItems = [
    { image: '/images/jerk-chicken.jpg', name: 'Jerk Chicken Plate', desc: 'Slow-marinated jerk chicken, seasoned rice & beans, buttered cabbage, and candied yams.', price: 25, tag: 'MCPS Only', tagColor: '#60a5fa' },
-    { image: '/images/alfredo.jpg', name: 'Chicken or Shrimp Alfredo', desc: 'Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.', price: 25, tag: 'FCPS Only', tagColor: '#22c55e' },
-
+{ image: '/images/alfredo.jpg', name: 'Chicken or Shrimp Alfredo', desc: 'Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.', price: 25, tag: 'FCPS Only', tagColor: '#22c55e' },
+  ]
   const reviews = [
     { name: 'Ms. Johnson', school: 'Clarksburg HS', rating: 5, text: 'The Jerk Chicken was incredible. Every Friday my whole department gathers around the food. Chef Papi has ruined all other lunches for us!' },
     { name: 'Mr. Williams', school: 'Damascus HS', rating: 5, text: 'Started a group order for our department and it was seamless. Everyone ordered separately, paid separately, food showed up hot and perfectly packed.' },
@@ -45,7 +45,7 @@ export default function Home() {
               Real Food.<br />Real <span style={{ color: 'var(--gold-light)' }}>Community.</span><br />Every Friday.
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.65)', marginBottom: 36, maxWidth: 480 }}>
-              Bringing restaurant-quality meals straight to MCPS, FCPS, and Frederick County school staff every Friday — plus event catering and weekly meal prep across Montgomery, Frederick, and surrounding counties in MD.
+              Bringing restaurant-quality meals straight to Montgomery County and Frederick County school staff every Friday — plus event catering and weekly meal prep across Montgomery, Frederick, and surrounding counties in MD.
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 40 }}>
               <a href="#menu" style={{ padding: '16px 32px', borderRadius: 12, background: 'var(--red)', color: '#fff', fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>🍽️ See This Week&apos;s Menu</a>
