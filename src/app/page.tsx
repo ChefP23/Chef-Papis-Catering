@@ -103,7 +103,7 @@ export default function Home() {
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 12 }}>This Week&apos;s Menu</div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>Foodie Friday – March 6, 2026</h2>
-          <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 40 }}>Delivery: Friday 10AM–1PM EST · Main Office Drop-off Only · MCPS, FCPS & Frederick County Schools</p>
+          <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 40 }}>Delivery: Friday 10AM–1PM EST · Main Office Drop-off Only · Montgomery County & Frederick County Schools</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
             {menuItems.map((item) => (
               <div key={item.name} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, overflow: 'hidden' }}>
