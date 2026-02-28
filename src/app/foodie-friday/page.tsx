@@ -211,16 +211,13 @@ export default function FoodieFriday() {
               return (
                 <div key={item.id} style={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                   {/* MEAL IMAGE */}
-                  <div style={{ height: 140, background: isAlfredo ? 'linear-gradient(135deg, #0a1f2e, #1a3d2e)' : 'linear-gradient(135deg, #2d1f0a, #3d2200)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56 }}>
-                    {/* MEAL IMAGE */}
-<div style={{ height: 140, overflow: 'hidden' }}>
+                  <div style={{ height: 140, overflow: 'hidden' }}>
   <img
     src={isAlfredo ? '/images/alfredo.jpg' : '/images/jerk-chicken.jpg'}
     alt={isAlfredo ? 'Chicken or Shrimp Alfredo' : 'Jerk Chicken Plate'}
     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
   />
 </div>
-                  </div>
 
                   <div style={{ padding: 20, flex: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {/* NAME + BADGE */}
@@ -345,8 +342,8 @@ export default function FoodieFriday() {
               </div>
             </div>
 
-            <button onClick={handleCheckout} disabled={checkoutLoading || cart.length === 0}
-              style={{ width: '100%', padding: 16, background: cart.length === 0 ? 'rgba(255,255,255,0.1)' : 'var(--gold)', color: cart.length === 0 ? 'rgba(255,255,255,0.3)' : 'var(--black)', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: cart.length === 0 ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
+            <button onClick={handleCheckout} disabled={checkoutLoading || cart.length === 0 || !district || !school || !staffName}
+              style={{ width: '100%', padding: 16, background: (cart.length === 0 || !district || !school || !staffName) ? 'rgba(255,255,255,0.1)' : 'var(--gold)', color: (cart.length === 0 || !district || !school || !staffName) ? 'rgba(255,255,255,0.3)' : 'var(--black)', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: cart.length === 0 ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
               {checkoutLoading ? 'Processing...' : `Checkout · $${total.toFixed(2)}`}
             </button>
 
