@@ -36,7 +36,7 @@ export default function Admin() {
       if (!user || user.email !== ADMIN_EMAIL) { router.push('/'); return }
       setUser(user)
       const [{ data: ordersData }, { data: cyclesData }, { data: customersData }] = await Promise.all([
-        supabase.from('orders').select('*, order_items(*), customers(first_name, last_name, full_name, email, phone), menu_cycles(title, delivery_date)').order('created_at', { ascending: false }).limit(500),
+        supabase.from('orders').select('*, order_items(*), customers(full_name, email, phone), menu_cycles(title, delivery_date)').order('created_at', { ascending: false }).limit(500),
         supabase.from('menu_cycles').select('*').order('delivery_date', { ascending: false }),
         supabase.from('customers').select('*').order('created_at', { ascending: false }),
       ])
