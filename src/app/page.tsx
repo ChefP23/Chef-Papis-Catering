@@ -1,321 +1,264 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-
-function Countdown() {
-  const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0 })
-
-  useEffect(() => {
-    function getCutoff() {
-      const now = new Date()
-      const day = now.getDay()
-      const wed = new Date(now)
-      const daysToWed = (3 - day + 7) % 7 || 7
-      wed.setDate(now.getDate() + daysToWed)
-      wed.setHours(23, 59, 59, 0)
-      return wed
-    }
-
-    function update() {
-      const diff = getCutoff().getTime() - Date.now()
-      if (diff <= 0) return
-      setTime({
-        days: Math.floor(diff / 86400000),
-        hours: Math.floor((diff % 86400000) / 3600000),
-        mins: Math.floor((diff % 3600000) / 60000),
-        secs: Math.floor((diff % 60000) / 1000),
-      })
-    }
-
-    update()
-    const interval = setInterval(update, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className="grid grid-cols-4 gap-2 mb-6">
-      {[
-        { val: time.days, label: 'Days' },
-        { val: time.hours, label: 'Hours' },
-        { val: time.mins, label: 'Mins' },
-        { val: time.secs, label: 'Secs' },
-      ].map(({ val, label }) => (
-        <div
-          key={label}
-          className="rounded-xl p-3 text-center"
-          style={{ background: 'rgba(196,30,30,0.35)', border: '2px solid rgba(255,255,255,0.25)' }}
-        >
-          <div
-            style={{ fontFamily: 'monospace', fontSize: 42, fontWeight: 900, color: '#FFFFFF', textShadow: '0 0 20px rgba(255,255,255,0.5)', lineHeight: 1 }}
-          >
-            {String(val).padStart(2, '0')}
-          </div>
-          <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>
-            {label}
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
+﻿import Link from "next/link"
 
 export default function Home() {
-  const menuItems = [
-    { emoji: '🍗', name: 'Jerk Chicken Bowl', desc: 'Slow-marinated chicken, rice & peas, fried plantains, house slaw.', price: 14 },
-    { emoji: '🥩', name: 'Philly Cheesesteak', desc: 'Shaved ribeye, caramelized onions, white American, hoagie roll.', price: 13 },
-    { emoji: '🐟', name: 'Salmon & Grits', desc: 'Blackened Atlantic salmon over stone-ground cheesy grits, sautéed greens.', price: 16 },
-    { emoji: '🍟', name: 'BBQ Loaded Fries', desc: 'Crispy fries, pulled pork, jalapeños, cheddar, BBQ drizzle.', price: 11 },
-    { emoji: '🍤', name: 'Shrimp Fried Rice', desc: 'Wok-fired rice, jumbo shrimp, scrambled egg, scallions, soy-ginger.', price: 14 },
-    { emoji: '🌿', name: 'Vegan Curry Bowl', desc: 'Coconut chickpea curry, basmati rice, roasted vegetables, naan.', price: 12 },
-  ]
-
   const reviews = [
-    { name: 'Ms. Johnson', school: 'Clarksburg HS', rating: 5, text: 'The Jerk Chicken Bowl was incredible. Every Friday my whole department gathers around the food. Chef Papi has ruined all other lunches for us!' },
-    { name: 'Mr. Williams', school: 'Damascus HS', rating: 5, text: 'Started a group order for our department and it was seamless. Everyone ordered separately, paid separately, food showed up hot and perfectly packed.' },
-    { name: 'Principal Davis', school: 'Northwest HS', rating: 5, text: 'Used Chef Papi for our end-of-year staff celebration. Restaurant quality, everything on time, price was beyond fair. Highly recommend.' },
+    { name: "Ms. Johnson", school: "Clarksburg HS", rating: 5, text: "The Jerk Chicken was incredible. Every Friday my whole department gathers around the food. Chef has ruined all other lunches for us!" },
+    { name: "Mr. Williams", school: "Damascus HS", rating: 5, text: "Started a group order for our department and it was seamless. Everyone ordered separately, paid separately, food showed up hot and perfectly packed." },
+    { name: "Principal Davis", school: "Northwest HS", rating: 5, text: "Used Chef for our end-of-year staff celebration. Restaurant quality, everything on time, price was beyond fair. Highly recommend." },
   ]
-
   return (
-    <main style={{ background: 'var(--warm-white)' }}>
-
-      {/* ALLERGEN BAR */}
-      <div style={{ background: '#FFF8E7', borderBottom: '1px solid rgba(212,160,23,0.3)', padding: '10px 24px', textAlign: 'center', fontSize: '13px', color: 'var(--text-mid)' }}>
-        ⚠️ <strong style={{ color: '#9B1515' }}>Allergen Notice:</strong> Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy.
-        &nbsp;|&nbsp; 🏠 Operating from a home kitchen while commercial licensing is in progress.
+    <main style={{ background: "#FAF7F2", fontFamily: "var(--font-dm-sans)" }}>
+      <div style={{ background: "#FFF8E7", borderBottom: "1px solid rgba(196,154,43,0.3)", padding: "10px 24px", textAlign: "center", fontSize: "13px", color: "#4A4A4A" }}>
+        <strong style={{ color: "#9B1515" }}>Allergen Notice:</strong> Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy. Operating from a home kitchen while commercial licensing is in progress.
       </div>
-
-      {/* HEADER */}
-      <header style={{ background: 'var(--black)', borderBottom: '2px solid var(--gold)', padding: '0 clamp(16px, 5vw, 48px)', position: 'sticky', top: 0, zIndex: 100 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 44, height: 44, background: 'var(--red)', border: '2px solid var(--gold)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-playfair)', fontSize: 16, fontWeight: 900, color: 'var(--gold)' }}>
-              CP
-            </div>
+      <header style={{ background: "rgba(250,247,242,0.95)", borderBottom: "1px solid rgba(196,154,43,0.2)", padding: "0 clamp(16px, 5vw, 64px)", position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(12px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
+            <div style={{ width: 48, height: 48, background: "#2D4A3E", border: "2px solid #C49A2B", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-playfair)", fontSize: 14, fontWeight: 900, color: "#E8B84B", letterSpacing: 1 }}>CP</div>
             <div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 18, fontWeight: 700, color: 'var(--gold-light)' }}>Chef Papi&apos;s</div>
-              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', letterSpacing: 2, textTransform: 'uppercase' }}>Catering</div>
+              <div style={{ fontFamily: "var(--font-playfair)", fontSize: 20, fontWeight: 700, color: "#2D4A3E", lineHeight: 1 }}>Chef Papi&apos;s</div>
+              <div style={{ fontSize: 10, color: "#C49A2B", letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>Catering - Maryland</div>
             </div>
-          </div>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            {[
-              { label: 'Foodie Friday', href: '#menu' },
-              { label: 'Catering', href: '#catering' },
-              { label: 'Meal Prep', href: '#mealprep' },
-              { label: 'Reviews', href: '#reviews' },
-            ].map(({ label, href }) => (
-              <a key={label} href={href} style={{ padding: '8px 14px', borderRadius: 6, fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.75)', textDecoration: 'none' }}>
-                {label}
-              </a>
-            ))}
-            <Link href="/login" style={{ padding: '8px 18px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', textDecoration: 'none', background: 'var(--red)', marginLeft: 8 }}>
-              Order Now
-            </Link>
+          </Link>
+          <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
+            <a href="#services" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>What We Offer</a>
+            <a href="#about" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>About</a>
+            <a href="#gallery" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Gallery</a>
+            <a href="#reviews" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Reviews</a>
+            <Link href="/foodie-friday" style={{ padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#fff", textDecoration: "none", background: "#2D4A3E", marginLeft: 8 }}>Order Now</Link>
           </nav>
         </div>
       </header>
-
-      {/* HERO */}
-      <section style={{ background: 'linear-gradient(135deg, var(--charcoal) 0%, var(--black) 50%, #1a0500 100%)', padding: 'clamp(60px, 10vw, 100px) clamp(16px, 5vw, 48px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+      <section style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "url(/images/hero-bg.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(28,28,28,0.78) 0%, rgba(45,74,62,0.62) 50%, rgba(28,28,28,0.52) 100%)" }} />
+        <div style={{ position: "relative", zIndex: 2, padding: "clamp(120px, 15vw, 160px) clamp(24px, 8vw, 120px) 80px", maxWidth: 900, textAlign: "center", width: "100%" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(196,154,43,0.2)", border: "1px solid rgba(196,154,43,0.5)", borderRadius: 100, padding: "6px 18px", fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "#E8B84B", marginBottom: 28 }}>
+            Foodie Friday - Order Window Open
+          </div>
+          <h1 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(64px, 12vw, 140px)", color: "#fff", lineHeight: 0.92, letterSpacing: 1, marginBottom: 12 }}>
+            Chef<br /><span style={{ color: "#E8B84B" }}>Papi&apos;s</span>
+          </h1>
+          <p style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontSize: "clamp(18px, 2.5vw, 26px)", color: "rgba(255,255,255,0.85)", marginBottom: 48, lineHeight: 1.5 }}>
+            Fresh Ingredients. Bold Flavors. Mouthwatering Memories.
+          </p>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
+            <Link href="/foodie-friday" style={{ padding: "16px 36px", borderRadius: 8, background: "#C49A2B", color: "#1C1C1C", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>Order This Friday</Link>
+            <a href="#services" style={{ padding: "16px 36px", borderRadius: 8, background: "transparent", color: "#fff", fontSize: 15, fontWeight: 600, textDecoration: "none", border: "2px solid rgba(255,255,255,0.5)" }}>What We Offer</a>
+          </div>
+        </div>
+      </section>
+      <div style={{ background: "#2D4A3E", padding: "24px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-around", gap: 32, flexWrap: "wrap" }}>
+          {[{ num: "1,200+", label: "Meals Served" }, { num: "3 Counties", label: "MD Served" }, { num: "4.9", label: "Avg Rating" }, { num: "Every Friday", label: "School Delivery" }].map(({ num, label }, i, arr) => (
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 32 }}>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontFamily: "var(--font-playfair)", fontSize: 32, fontWeight: 700, color: "#E8B84B", lineHeight: 1 }}>{num}</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", letterSpacing: 2, textTransform: "uppercase", marginTop: 4 }}>{label}</div>
+              </div>
+              {i < arr.length - 1 && <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.15)" }} />}
+            </div>
+          ))}
+        </div>
+      </div>
+      <section id="services" style={{ background: "#F5F0E8", padding: "100px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 60 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>What We Offer</div>
+            <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 5vw, 56px)", color: "#2D4A3E", lineHeight: 1.1, marginBottom: 16 }}>More Ways to Eat Good</h2>
+            <p style={{ fontSize: 16, color: "#4A4A4A", maxWidth: 480, lineHeight: 1.6, margin: "0 auto" }}>From weekly school deliveries to full event catering - restaurant-quality food, right to you.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+            {[
+              { image: "/images/jerk-chicken.jpg", tag: "Weekly - Fridays", title: "Foodie Friday", desc: "Weekly lunch delivery to MCPS, FCPS, and Frederick County school staff. Order by Wednesday, delivered Friday 10AM-1PM.", link: "/foodie-friday", cta: "Order This Week" },
+              { image: "/images/hero-bg.jpg", tag: "Events - Corporate - Private", title: "Event Catering", desc: "School events, corporate lunches, and private celebrations across Montgomery, Frederick, and surrounding counties. Minimum $400.", link: "#catering", cta: "Request a Quote" },
+              { image: "/images/meal-prep.jpg", tag: "Weekly - Sunday Pickup", title: "Weekly Meal Prep", desc: "5 fresh meals every week. $100/week or save 25% with a 4-week commitment. Sunday pickup at 6PM.", link: "/meal-prep", cta: "Learn More" },
+            ].map((s) => (
+              <Link key={s.title} href={s.link} style={{ background: "#fff", borderRadius: 20, overflow: "hidden", textDecoration: "none", display: "block", border: "1px solid rgba(45,74,62,0.12)" }}>
+                <div style={{ height: 220, overflow: "hidden" }}>
+                  <img src={s.image} alt={s.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+                <div style={{ padding: 28, textAlign: "center" }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#C49A2B", marginBottom: 10 }}>{s.tag}</div>
+                  <div style={{ fontFamily: "var(--font-playfair)", fontSize: 26, fontWeight: 700, color: "#2D4A3E", marginBottom: 10 }}>{s.title}</div>
+                  <div style={{ fontSize: 14, color: "#4A4A4A", lineHeight: 1.6, marginBottom: 20 }}>{s.desc}</div>
+                  <div style={{ display: "inline-block", padding: "10px 24px", background: "#2D4A3E", color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 700 }}>{s.cta}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="about" style={{ background: "#2D4A3E", padding: "100px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(212,160,23,0.15)', border: '1px solid rgba(212,160,23,0.4)', borderRadius: 100, padding: '6px 16px', fontSize: 12, fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 20 }}>
-              🔥 Foodie Friday – Order Window OPEN
-            </div>
-            <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', color: '#fff', lineHeight: 1.05, marginBottom: 20 }}>
-              Real Food.<br />
-              Real <span style={{ color: 'var(--gold-light)' }}>Community.</span><br />
-              Every Friday.
-            </h1>
-            <p style={{ fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.65)', marginBottom: 36, maxWidth: 480 }}>
-              Bringing restaurant-quality meals straight to MCPS school staff every Friday — plus event catering and weekly meal prep across Montgomery County, MD.
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "#E8B84B", marginBottom: 16, textAlign: "center" }}>Our Story</div>
+            <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 700, color: "#fff", lineHeight: 1.1, marginBottom: 24, textAlign: "center" }}>
+              Food is Fuel. Your Body Deserves <em style={{ fontStyle: "italic", color: "#E8B84B" }}>the Best.</em>
+            </h2>
+            <p style={{ fontSize: 16, lineHeight: 1.8, color: "rgba(255,255,255,0.72)", marginBottom: 16, textAlign: "center" }}>
+              Chef Papi&apos;s Catering was born from a simple belief - that the food we eat should nourish us just as much as it satisfies us. After years in the kitchen and a personal health journey that changed the way I see food, I made it my mission to bring bold, fresh, restaurant-quality meals to the communities that deserve it most.
             </p>
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 40 }}>
-              <a href="#menu" style={{ padding: '16px 32px', borderRadius: 12, background: 'var(--red)', color: '#fff', fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>
-                🍽️ See This Week&apos;s Menu
-              </a>
-              <a href="#catering" style={{ padding: '16px 32px', borderRadius: 12, background: 'transparent', color: 'var(--gold-light)', fontSize: 16, fontWeight: 600, textDecoration: 'none', border: '2px solid rgba(212,160,23,0.5)' }}>
-                Book Catering
-              </a>
-            </div>
-            <div style={{ display: 'flex', gap: 32 }}>
+            <p style={{ fontSize: 16, lineHeight: 1.8, color: "rgba(255,255,255,0.72)", marginBottom: 40, textAlign: "center" }}>
+              Serving Maryland&apos;s school staff, families, and event guests across Montgomery County, Frederick County, and beyond.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {[
-                { num: '1,200+', label: 'Meals Served' },
-                { num: '20+', label: 'MCPS Schools' },
-                { num: '4.9★', label: 'Avg Rating' },
-              ].map(({ num, label }) => (
-                <div key={label}>
-                  <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 32, fontWeight: 900, color: 'var(--gold-light)' }}>{num}</div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</div>
+                { icon: "🌿", title: "Fresh Ingredients Always", desc: "No shortcuts. Every meal starts with quality ingredients, prepared fresh." },
+                { icon: "🔥", title: "Bold, Honest Flavor", desc: "Inspired by Caribbean roots, Maryland culture, and years of perfecting every recipe." },
+                { icon: "🤝", title: "Community First", desc: "Built for the teachers, staff, and families who keep Maryland communities running." },
+              ].map(({ icon, title, desc }) => (
+                <div key={title} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+                  <div style={{ width: 44, height: 44, background: "rgba(196,154,43,0.18)", border: "1px solid rgba(196,154,43,0.3)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>{icon}</div>
+                  <div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{title}</div>
+                    <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>{desc}</div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* COUNTDOWN CARD */}
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(212,160,23,0.25)', borderRadius: 20, padding: 32, backdropFilter: 'blur(10px)' }}>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }}></span>
-              Order Cutoff Countdown
+          <div style={{ position: "relative", height: 520 }}>
+            <img src="/images/gallery-3.jpg" alt="Food" style={{ position: "absolute", top: 0, right: 0, width: "85%", height: 420, objectFit: "cover", borderRadius: 16, display: "block" }} />
+            <img src="/images/gallery-2.jpg" alt="Food" style={{ position: "absolute", bottom: 0, left: 0, width: "60%", height: 280, objectFit: "cover", borderRadius: 16, border: "4px solid #2D4A3E", display: "block" }} />
+            <div style={{ position: "absolute", bottom: 60, right: -16, background: "#C49A2B", color: "#1C1C1C", padding: "16px 20px", borderRadius: 12, textAlign: "center", fontWeight: 700, fontSize: 13, lineHeight: 1.3, boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
+              Chef Marcus<br /><span style={{ fontSize: 11, fontWeight: 400, opacity: 0.75 }}>Founder and Head Chef</span>
             </div>
-
-            <Countdown />
-
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'rgba(255,255,255,0.7)', marginBottom: 8 }}>
-                <span>Order Capacity</span>
-                <span style={{ color: 'var(--gold-light)', fontWeight: 700 }}>38 / 50</span>
-              </div>
-              <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 100, overflow: 'hidden' }}>
-                <div style={{ width: '76%', height: '100%', background: 'linear-gradient(90deg, var(--red), var(--gold))', borderRadius: 100 }}></div>
-              </div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gold-light)', marginTop: 6 }}>⚡ 12 spots remaining — order fast!</div>
-            </div>
-
-            <div style={{ marginBottom: 20, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-              🏫 Schools Booked: <strong style={{ color: 'var(--gold-light)' }}>3 of 5</strong>
-            </div>
-
-            <a href="/foodie-friday" style={{ display: 'block', width: '100%', padding: 14, background: 'var(--gold)', color: 'var(--black)', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, textAlign: 'center', textDecoration: 'none' }}>
-              Order Before Wednesday 11:59 PM →
-            </a>
           </div>
         </div>
       </section>
-
-      {/* MENU SECTION */}
-      <section id="menu" style={{ background: 'var(--cream)', padding: '80px clamp(16px, 5vw, 48px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 12 }}>This Week&apos;s Menu</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>Foodie Friday – March 6, 2026</h2>
-          <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 40 }}>Delivery: Friday 10AM–1PM EST · Main Office Drop-off Only · MCPS Schools</p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
-            {menuItems.map((item) => (
-              <div key={item.name} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, overflow: 'hidden', transition: 'all 0.25s', cursor: 'pointer' }}>
-                <div style={{ height: 160, background: 'linear-gradient(135deg, var(--charcoal), #3d2200)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>
-                  {item.emoji}
+      <section id="menu" style={{ background: "#FAF7F2", padding: "80px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>This Week&apos;s Menu</div>
+            <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(28px, 4vw, 48px)", color: "#2D4A3E", marginBottom: 16 }}>Foodie Friday</h2>
+            <Link href="/foodie-friday" style={{ fontSize: 14, fontWeight: 600, color: "#2D4A3E", textDecoration: "none", borderBottom: "2px solid #C49A2B", paddingBottom: 2 }}>View Full Menu</Link>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
+            {[
+              { image: "/images/jerk-chicken.jpg", name: "Jerk Chicken Plate", tag: "Montgomery County Public Schools", desc: "Slow-marinated jerk chicken, seasoned rice and beans, buttered cabbage, and candied yams.", price: 25 },
+              { image: "/images/alfredo.jpg", name: "Chicken or Shrimp Alfredo", tag: "Frederick County Public Schools", desc: "Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.", price: 25 },
+            ].map((item) => (
+              <div key={item.name} style={{ background: "#fff", border: "1px solid rgba(45,74,62,0.12)", borderRadius: 16, overflow: "hidden" }}>
+                <div style={{ height: 200, overflow: "hidden" }}>
+                  <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
-                <div style={{ padding: 18 }}>
-                  <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 18, fontWeight: 700, marginBottom: 6 }}>{item.name}</div>
-                  <div style={{ fontSize: 13, color: 'var(--text-light)', marginBottom: 14, lineHeight: 1.5 }}>{item.desc}</div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 22, fontWeight: 700, color: 'var(--red)' }}>${item.price}.00</div>
-                    <Link href="/foodie-friday" style={{ width: 36, height: 36, background: 'var(--red)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', fontWeight: 300 }}>+</Link>
+                <div style={{ padding: 20, textAlign: "center" }}>
+                  <div style={{ fontFamily: "var(--font-playfair)", fontSize: 20, fontWeight: 700, color: "#2D4A3E", marginBottom: 6 }}>{item.name}</div>
+                  <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: "rgba(45,74,62,0.1)", color: "#2D4A3E" }}>{item.tag}</span>
+                  <div style={{ fontSize: 13, color: "#7A7A7A", marginBottom: 16, lineHeight: 1.5, marginTop: 8 }}>{item.desc}</div>
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
+                    <div style={{ fontFamily: "var(--font-playfair)", fontSize: 24, fontWeight: 700, color: "#2D4A3E" }}>${item.price}.00</div>
+                    <Link href="/foodie-friday" style={{ padding: "8px 20px", background: "#2D4A3E", color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>Order Now</Link>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          <div style={{ marginTop: 16, fontSize: 12, color: "#7A7A7A", textAlign: "center" }}>Order cutoff: Wednesday 11:59 PM - Delivered Friday 10AM-1PM</div>
         </div>
       </section>
-
-      {/* SERVICES */}
-      <section style={{ padding: '80px clamp(16px, 5vw, 48px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 12 }}>Everything We Do</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 16 }}>More Ways to Eat Good</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginTop: 48 }}>
+      <section id="gallery" style={{ background: "#F5F0E8", padding: "80px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>The Food</div>
+            <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 5vw, 56px)", color: "#2D4A3E" }}>Made Fresh. Every Time.</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             {[
-              { emoji: '🍱', title: 'Foodie Friday', desc: 'Weekly lunch delivery to MCPS schools. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
-              { emoji: '🎉', title: 'Event Catering', desc: 'Corporate events, school functions, and private parties. Minimum $400. Secure your date with a 25% deposit.', color: 'linear-gradient(135deg, #1C1209, #2D1F0A)', href: '#catering' },
-              { emoji: '🥗', title: 'Weekly Meal Prep', desc: '5 fresh meals per week, $100. Pay 4 weeks upfront and save 25%. Sunday pickup 6PM.', color: 'linear-gradient(135deg, #0a1f0a, #1a3d1a)', href: '#mealprep' },
-            ].map((s) => (
-              <a key={s.title} href={s.href} style={{ background: s.color, borderRadius: 20, padding: 32, textDecoration: 'none', display: 'block', border: '1px solid rgba(212,160,23,0.2)' }}>
-                <div style={{ fontSize: 40, marginBottom: 16 }}>{s.emoji}</div>
-                <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 24, color: '#fff', marginBottom: 10 }}>{s.title}</div>
-                <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, marginBottom: 20 }}>{s.desc}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold-light)' }}>Learn More →</div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CATERING */}
-      <section id="catering" style={{ padding: '80px clamp(16px, 5vw, 48px)', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 12 }}>Catering</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 16 }}>We Bring the Party</h2>
-          <p style={{ fontSize: 17, color: 'var(--text-light)', maxWidth: 560, lineHeight: 1.65, marginBottom: 40 }}>
-            Chef Papi&apos;s handles school events, corporate lunches, private celebrations, and more across Brunswick and Montgomery County. Minimum $400.
-          </p>
-          <Link href="/login" style={{ padding: '16px 32px', borderRadius: 12, background: 'var(--red)', color: '#fff', fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>
-            Request a Quote
-          </Link>
-        </div>
-      </section>
-
-      {/* MEAL PREP */}
-      <section id="mealprep" style={{ background: 'var(--black)', padding: '80px clamp(16px, 5vw, 48px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Meal Prep</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 16 }}>Stop Eating Like That</h2>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', maxWidth: 560, lineHeight: 1.65, marginBottom: 48 }}>5 fresh meals every week. Pick up Sunday at 6PM.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, maxWidth: 600 }}>
-            <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 28 }}>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>Weekly</div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 42, color: 'var(--gold-light)', lineHeight: 1 }}>$100</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 24 }}>/week · 5 meals</div>
-              <Link href="/login" style={{ display: 'block', padding: 12, background: 'var(--gold)', color: 'var(--black)', borderRadius: 10, fontWeight: 700, textAlign: 'center', textDecoration: 'none' }}>Start Weekly</Link>
-            </div>
-            <div style={{ background: 'linear-gradient(135deg, #9B1515, #C41E1E)', borderRadius: 20, padding: 28, position: 'relative' }}>
-              <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--gold)', color: 'var(--black)', fontSize: 11, fontWeight: 800, padding: '3px 10px', borderRadius: 100 }}>SAVE 25%</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>4 Weeks</div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 42, color: '#fff', lineHeight: 1 }}>$300</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>save $100</div>
-              <Link href="/login" style={{ display: 'block', padding: 12, background: 'var(--gold)', color: 'var(--black)', borderRadius: 10, fontWeight: 700, textAlign: 'center', textDecoration: 'none' }}>Get 4 Weeks</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section id="reviews" style={{ background: 'var(--black)', padding: '80px clamp(16px, 5vw, 48px)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Reviews</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 48 }}>The Community Speaks</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
-            {reviews.map((r) => (
-              <div key={r.name} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212,160,23,0.2)', borderRadius: 16, padding: 24 }}>
-                <div style={{ color: 'var(--gold)', fontSize: 18, marginBottom: 12 }}>{'★'.repeat(r.rating)}</div>
-                <div style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 16, fontStyle: 'italic' }}>&ldquo;{r.text}&rdquo;</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}><strong style={{ color: 'rgba(255,255,255,0.7)' }}>{r.name}</strong> · {r.school}</div>
+              { src: "/images/gallery-1.jpg", span: 2, height: 320 },
+              { src: "/images/gallery-2.jpg", span: 1, height: 320 },
+              { src: "/images/gallery-3.jpg", span: 1, height: 320 },
+              { src: "/images/gallery-4.jpg", span: 1, height: 260 },
+              { src: "/images/gallery-5.jpg", span: 1, height: 260 },
+              { src: "/images/gallery-6.jpg", span: 2, height: 260 },
+            ].map((img, i) => (
+              <div key={i} style={{ gridColumn: `span ${img.span}`, height: img.height, borderRadius: 12, overflow: "hidden" }}>
+                <img src={img.src} alt={`Food ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer style={{ background: 'var(--black)', borderTop: '1px solid rgba(212,160,23,0.2)', padding: '60px clamp(16px, 5vw, 48px) 32px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 48, marginBottom: 48 }}>
-            <div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 22, color: 'var(--gold-light)', marginBottom: 12 }}>Chef Papi&apos;s Catering</div>
-              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7 }}>Community-focused catering and school lunch delivery serving MCPS and Montgomery County, MD.</p>
-              <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)' }}>📧 hello@chefpapiscatering.com</div>
+      <section id="catering" style={{ background: "#FAF7F2", padding: "100px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>Catering</div>
+            <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 4vw, 52px)", color: "#2D4A3E", marginBottom: 20 }}>We Bring the Party</h2>
+            <p style={{ fontSize: 17, color: "#4A4A4A", lineHeight: 1.7, marginBottom: 36 }}>Chef handles school events, corporate lunches, private celebrations, and more across Brunswick, Montgomery County, Frederick County, and surrounding areas. Minimum $400. Secure your date with a 25% deposit.</p>
+            <Link href="/login" style={{ display: "inline-block", padding: "16px 36px", borderRadius: 10, background: "#2D4A3E", color: "#fff", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>Request a Quote</Link>
+          </div>
+          <div style={{ height: 400, borderRadius: 20, overflow: "hidden" }}>
+            <img src="/images/gallery-1.jpg" alt="Catering" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </div>
+        </div>
+      </section>
+      <div style={{ background: "#2D4A3E", padding: "24px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>Serving:</div>
+          {["MCPS - Montgomery County", "FCPS - Frederick County", "Brunswick City Schools", "Private and Corporate Events"].map(area => (
+            <div key={area} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 18px", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(196,154,43,0.25)", borderRadius: 100, fontSize: 13, color: "rgba(255,255,255,0.75)" }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#C49A2B", display: "inline-block" }}></span>
+              {area}
             </div>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>Order</div>
-              {['Foodie Friday', 'Catering', 'Meal Prep'].map((l) => (
-                <div key={l} style={{ marginBottom: 10 }}><a href="#" style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>{l}</a></div>
+          ))}
+        </div>
+      </div>
+      <section id="reviews" style={{ background: "#FAF7F2", padding: "100px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>Reviews</div>
+            <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 4vw, 52px)", color: "#2D4A3E" }}>The Community Speaks</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+            {reviews.map((r) => (
+              <div key={r.name} style={{ background: "#fff", border: "1px solid rgba(45,74,62,0.12)", borderRadius: 16, padding: 28, textAlign: "center" }}>
+                <div style={{ color: "#C49A2B", fontSize: 18, marginBottom: 14 }}>{"★".repeat(r.rating)}</div>
+                <p style={{ fontFamily: "var(--font-playfair)", fontStyle: "italic", fontSize: 18, color: "#1C1C1C", lineHeight: 1.65, marginBottom: 20 }}>&ldquo;{r.text}&rdquo;</p>
+                <strong style={{ fontSize: 14, fontWeight: 600, color: "#2D4A3E", display: "block" }}>{r.name}</strong>
+                <span style={{ fontSize: 12, color: "#7A7A7A" }}>{r.school}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section style={{ background: "#2D4A3E", textAlign: "center", padding: "100px clamp(16px, 5vw, 64px)" }}>
+        <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "#E8B84B", marginBottom: 20 }}>Ready to Order?</div>
+        <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(40px, 8vw, 88px)", color: "#fff", lineHeight: 0.95, marginBottom: 36 }}>
+          This Friday&apos;s <span style={{ color: "#E8B84B" }}>Menu is Open</span>
+        </h2>
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+          <Link href="/foodie-friday" style={{ padding: "16px 36px", borderRadius: 8, background: "#C49A2B", color: "#1C1C1C", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>Order Foodie Friday</Link>
+          <a href="#catering" style={{ padding: "16px 36px", borderRadius: 8, background: "transparent", color: "#fff", fontSize: 15, fontWeight: 600, textDecoration: "none", border: "2px solid rgba(255,255,255,0.4)" }}>Book Catering</a>
+        </div>
+      </section>
+      <footer style={{ background: "#1C1C1C", borderTop: "1px solid rgba(196,154,43,0.2)", padding: "60px clamp(16px, 5vw, 64px) 32px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: "var(--font-playfair)", fontSize: 24, color: "#E8B84B", marginBottom: 12 }}>Chef Papi&apos;s Catering</div>
+              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: 16 }}>Community-focused catering and school lunch delivery serving MCPS, FCPS, Frederick County, and surrounding areas in Maryland.</p>
+              <div style={{ fontSize: 13, color: "#C49A2B" }}>hello@chefpapiscatering.com</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 16 }}>Order</div>
+              {[{ label: "Foodie Friday", href: "/foodie-friday" }, { label: "Catering", href: "#catering" }, { label: "Meal Prep", href: "/meal-prep" }].map((l) => (
+                <div key={l.label} style={{ marginBottom: 10 }}><Link href={l.href} style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>{l.label}</Link></div>
               ))}
             </div>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>Legal</div>
-              {['Terms & Conditions', 'Privacy Policy', 'Allergen Info'].map((l) => (
-                <div key={l} style={{ marginBottom: 10 }}><a href="#" style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>{l}</a></div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 16 }}>Legal</div>
+              {["Terms and Conditions", "Privacy Policy", "Allergen Info"].map((l) => (
+                <div key={l} style={{ marginBottom: 10 }}><a href="#" style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>{l}</a></div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>© 2026 Chef Papi&apos;s Catering · Brunswick, MD</p>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>🔒 Secure payments via Stripe · PCI Compliant</p>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24, display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.25)" }}>2026 Chef Papi&apos;s Catering - Brunswick, MD</p>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>Secure payments via Stripe - PCI Compliant</p>
           </div>
         </div>
       </footer>
-
     </main>
   )
 }
