@@ -77,7 +77,6 @@ export async function POST(req: NextRequest) {
         cycle_id,
         school_id: school?.id || null,
         staff_name: school_name,
-        notes: staff_name: school_name,
         notes: `Staff: ${staff_name}`,
         status: 'pending',
         subtotal,
