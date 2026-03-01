@@ -62,12 +62,12 @@ function Countdown() {
 
 export default function Home() {
   const menuItems = [
-    { emoji: '🍗', name: 'Jerk Chicken Bowl', desc: 'Slow-marinated chicken, rice & peas, fried plantains, house slaw.', price: 14 },
-    { emoji: '🥩', name: 'Philly Cheesesteak', desc: 'Shaved ribeye, caramelized onions, white American, hoagie roll.', price: 13 },
-    { emoji: '🐟', name: 'Salmon & Grits', desc: 'Blackened Atlantic salmon over stone-ground cheesy grits, sautéed greens.', price: 16 },
-    { emoji: '🍟', name: 'BBQ Loaded Fries', desc: 'Crispy fries, pulled pork, jalapeños, cheddar, BBQ drizzle.', price: 11 },
-    { emoji: '🍤', name: 'Shrimp Fried Rice', desc: 'Wok-fired rice, jumbo shrimp, scrambled egg, scallions, soy-ginger.', price: 14 },
-    { emoji: '🌿', name: 'Vegan Curry Bowl', desc: 'Coconut chickpea curry, basmati rice, roasted vegetables, naan.', price: 12 },
+    { emoji: 'ðŸ—', name: 'Jerk Chicken Bowl', desc: 'Slow-marinated chicken, rice & peas, fried plantains, house slaw.', price: 14 },
+    { emoji: 'ðŸ¥©', name: 'Philly Cheesesteak', desc: 'Shaved ribeye, caramelized onions, white American, hoagie roll.', price: 13 },
+    { emoji: 'ðŸŸ', name: 'Salmon & Grits', desc: 'Blackened Atlantic salmon over stone-ground cheesy grits, sautÃ©ed greens.', price: 16 },
+    { emoji: 'ðŸŸ', name: 'BBQ Loaded Fries', desc: 'Crispy fries, pulled pork, jalapeÃ±os, cheddar, BBQ drizzle.', price: 11 },
+    { emoji: 'ðŸ¤', name: 'Shrimp Fried Rice', desc: 'Wok-fired rice, jumbo shrimp, scrambled egg, scallions, soy-ginger.', price: 14 },
+    { emoji: 'ðŸŒ¿', name: 'Vegan Curry Bowl', desc: 'Coconut chickpea curry, basmati rice, roasted vegetables, naan.', price: 12 },
   ]
 
   const reviews = [
@@ -81,8 +81,8 @@ export default function Home() {
 
       {/* ALLERGEN BAR */}
       <div style={{ background: '#FFF8E7', borderBottom: '1px solid rgba(212,160,23,0.3)', padding: '10px 24px', textAlign: 'center', fontSize: '13px', color: 'var(--text-mid)' }}>
-        ⚠️ <strong style={{ color: '#9B1515' }}>Allergen Notice:</strong> Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy.
-        &nbsp;|&nbsp; 🏠 Operating from a home kitchen while commercial licensing is in progress.
+        âš ï¸ <strong style={{ color: '#9B1515' }}>Allergen Notice:</strong> Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy.
+        &nbsp;|&nbsp; ðŸ  Operating from a home kitchen while commercial licensing is in progress.
       </div>
 
       {/* HEADER */}
@@ -120,21 +120,21 @@ export default function Home() {
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(212,160,23,0.15)', border: '1px solid rgba(212,160,23,0.4)', borderRadius: 100, padding: '6px 16px', fontSize: 12, fontWeight: 600, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--gold-light)', marginBottom: 20 }}>
-              🔥 Foodie Friday – Order Window OPEN
+              ðŸ”¥ Foodie Friday â€“ Order Window OPEN
             </div>
-            <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', color: '#fff', lineHeight: 1.05, marginBottom: 20 }}>
+            <h1 style={{ fontSize: 'clamp(36px, 6vw, 68px)', color: '#fff', lineHeight: 1.05, marginBottom: 20 }}>        
               Real Food.<br />
               Real <span style={{ color: 'var(--gold-light)' }}>Community.</span><br />
               Every Friday.
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.65)', marginBottom: 36, maxWidth: 480 }}>
-              Bringing restaurant-quality meals straight to MCPS school staff every Friday — plus event catering and weekly meal prep across Montgomery County, MD.
+              Bringing restaurant-quality meals straight to MCPS school staff every Friday â€” plus event catering and weekly meal prep across Montgomery County, MD.
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 40 }}>
               <a href="#menu" style={{ padding: '16px 32px', borderRadius: 12, background: 'var(--red)', color: '#fff', fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>
-                🍽️ See This Week&apos;s Menu
+                ðŸ½ï¸ See This Week&apos;s Menu
               </a>
-              <a href="#catering" style={{ padding: '16px 32px', borderRadius: 12, background: 'transparent', color: 'var(--gold-light)', fontSize: 16, fontWeight: 600, textDecoration: 'none', border: '2px solid rgba(212,160,23,0.5)' }}>
+              <a href="#catering" style={{ padding: '16px 32px', borderRadius: 12, background: 'transparent', color: 'var(--gold-light)', fontSize: 16, fontWeight: 600, textDecoration: 'none', border: '2px solid rgba(212,160,23,0.5)' }}>       
                 Book Catering
               </a>
             </div>
@@ -142,7 +142,7 @@ export default function Home() {
               {[
                 { num: '1,200+', label: 'Meals Served' },
                 { num: '20+', label: 'MCPS Schools' },
-                { num: '4.9★', label: 'Avg Rating' },
+                { num: '4.9â˜…', label: 'Avg Rating' },
               ].map(({ num, label }) => (
                 <div key={label}>
                   <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 32, fontWeight: 900, color: 'var(--gold-light)' }}>{num}</div>
@@ -166,18 +166,18 @@ export default function Home() {
                 <span>Order Capacity</span>
                 <span style={{ color: 'var(--gold-light)', fontWeight: 700 }}>38 / 50</span>
               </div>
-              <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 100, overflow: 'hidden' }}>
+              <div style={{ height: 8, background: 'rgba(255,255,255,0.1)', borderRadius: 100, overflow: 'hidden' }}>     
                 <div style={{ width: '76%', height: '100%', background: 'linear-gradient(90deg, var(--red), var(--gold))', borderRadius: 100 }}></div>
               </div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gold-light)', marginTop: 6 }}>⚡ 12 spots remaining — order fast!</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--gold-light)', marginTop: 6 }}>âš¡ 12 spots remaining â€” order fast!</div>
             </div>
 
             <div style={{ marginBottom: 20, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-              🏫 Schools Booked: <strong style={{ color: 'var(--gold-light)' }}>3 of 5</strong>
+              ðŸ« Schools Booked: <strong style={{ color: 'var(--gold-light)' }}>3 of 5</strong>
             </div>
 
             <a href="/foodie-friday" style={{ display: 'block', width: '100%', padding: 14, background: 'var(--gold)', color: 'var(--black)', border: 'none', borderRadius: 10, fontSize: 15, fontWeight: 700, textAlign: 'center', textDecoration: 'none' }}>
-              Order Before Wednesday 11:59 PM →
+              Order Before Wednesday 11:59 PM â†’
             </a>
           </div>
         </div>
@@ -187,10 +187,10 @@ export default function Home() {
       <section id="menu" style={{ background: 'var(--cream)', padding: '80px clamp(16px, 5vw, 48px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 12 }}>This Week&apos;s Menu</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>Foodie Friday – March 6, 2026</h2>
-          <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 40 }}>Delivery: Friday 10AM–1PM EST · Main Office Drop-off Only · MCPS Schools</p>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>Foodie Friday â€“ March 6, 2026</h2>        
+          <p style={{ fontSize: 14, color: 'var(--text-light)', marginBottom: 40 }}>Delivery: Friday 10AMâ€“1PM EST Â· Main Office Drop-off Only Â· MCPS Schools</p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>        
             {menuItems.map((item) => (
               <div key={item.name} style={{ background: '#fff', border: '1px solid rgba(0,0,0,0.08)', borderRadius: 16, overflow: 'hidden', transition: 'all 0.25s', cursor: 'pointer' }}>
                 <div style={{ height: 160, background: 'linear-gradient(135deg, var(--charcoal), #3d2200)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 64 }}>
@@ -217,15 +217,15 @@ export default function Home() {
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 16 }}>More Ways to Eat Good</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginTop: 48 }}>
             {[
-              { emoji: '🍱', title: 'Foodie Friday', desc: 'Weekly lunch delivery to MCPS schools. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
-              { emoji: '🎉', title: 'Event Catering', desc: 'Corporate events, school functions, and private parties. Minimum $400. Secure your date with a 25% deposit.', color: 'linear-gradient(135deg, #1C1209, #2D1F0A)', href: '#catering' },
-              { emoji: '🥗', title: 'Weekly Meal Prep', desc: '5 fresh meals per week, $100. Pay 4 weeks upfront and save 25%. Sunday pickup 6PM.', color: 'linear-gradient(135deg, #0a1f0a, #1a3d1a)', href: '#mealprep' },
+              { emoji: 'ðŸ±', title: 'Foodie Friday', desc: 'Weekly lunch delivery to MCPS schools. Order by Wednesday night, delivered Friday morning.', color: 'linear-gradient(135deg, #9B1515, #C41E1E)', href: '/foodie-friday' },
+              { emoji: 'ðŸŽ‰', title: 'Event Catering', desc: 'Corporate events, school functions, and private parties. Minimum $400. Secure your date with a 25% deposit.', color: 'linear-gradient(135deg, #1C1209, #2D1F0A)', href: '#catering' },
+              { emoji: 'ðŸ¥—', title: 'Weekly Meal Prep', desc: '5 fresh meals per week, $100. Pay 4 weeks upfront and save 25%. Sunday pickup 6PM.', color: 'linear-gradient(135deg, #0a1f0a, #1a3d1a)', href: '#mealprep' },
             ].map((s) => (
               <a key={s.title} href={s.href} style={{ background: s.color, borderRadius: 20, padding: 32, textDecoration: 'none', display: 'block', border: '1px solid rgba(212,160,23,0.2)' }}>
                 <div style={{ fontSize: 40, marginBottom: 16 }}>{s.emoji}</div>
                 <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 24, color: '#fff', marginBottom: 10 }}>{s.title}</div>
                 <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, marginBottom: 20 }}>{s.desc}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold-light)' }}>Learn More →</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gold-light)' }}>Learn More â†’</div>
               </a>
             ))}
           </div>
@@ -237,7 +237,7 @@ export default function Home() {
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--red)', marginBottom: 12 }}>Catering</div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 16 }}>We Bring the Party</h2>
-          <p style={{ fontSize: 17, color: 'var(--text-light)', maxWidth: 560, lineHeight: 1.65, marginBottom: 40 }}>
+          <p style={{ fontSize: 17, color: 'var(--text-light)', maxWidth: 560, lineHeight: 1.65, marginBottom: 40 }}>     
             Chef Papi&apos;s handles school events, corporate lunches, private celebrations, and more across Brunswick and Montgomery County. Minimum $400.
           </p>
           <Link href="/login" style={{ padding: '16px 32px', borderRadius: 12, background: 'var(--red)', color: '#fff', fontSize: 16, fontWeight: 700, textDecoration: 'none' }}>
@@ -250,19 +250,19 @@ export default function Home() {
       <section id="mealprep" style={{ background: 'var(--black)', padding: '80px clamp(16px, 5vw, 48px)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Meal Prep</div>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 16 }}>Stop Eating Like That</h2>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 16 }}>Stop Eating Like That</h2>  
           <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', maxWidth: 560, lineHeight: 1.65, marginBottom: 48 }}>5 fresh meals every week. Pick up Sunday at 6PM.</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, maxWidth: 600 }}>
             <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 28 }}>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>Weekly</div>
               <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 42, color: 'var(--gold-light)', lineHeight: 1 }}>$100</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 24 }}>/week · 5 meals</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginBottom: 24 }}>/week Â· 5 meals</div>      
               <Link href="/login" style={{ display: 'block', padding: 12, background: 'var(--gold)', color: 'var(--black)', borderRadius: 10, fontWeight: 700, textAlign: 'center', textDecoration: 'none' }}>Start Weekly</Link>
             </div>
             <div style={{ background: 'linear-gradient(135deg, #9B1515, #C41E1E)', borderRadius: 20, padding: 28, position: 'relative' }}>
               <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--gold)', color: 'var(--black)', fontSize: 11, fontWeight: 800, padding: '3px 10px', borderRadius: 100 }}>SAVE 25%</div>
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>4 Weeks</div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 42, color: '#fff', lineHeight: 1 }}>$300</div>
+              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 42, color: '#fff', lineHeight: 1 }}>$300</div>  
               <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 24 }}>save $100</div>
               <Link href="/login" style={{ display: 'block', padding: 12, background: 'var(--gold)', color: 'var(--black)', borderRadius: 10, fontWeight: 700, textAlign: 'center', textDecoration: 'none' }}>Get 4 Weeks</Link>
             </div>
@@ -275,12 +275,12 @@ export default function Home() {
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Reviews</div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: '#fff', marginBottom: 48 }}>The Community Speaks</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>        
             {reviews.map((r) => (
               <div key={r.name} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212,160,23,0.2)', borderRadius: 16, padding: 24 }}>
-                <div style={{ color: 'var(--gold)', fontSize: 18, marginBottom: 12 }}>{'★'.repeat(r.rating)}</div>
+                <div style={{ color: 'var(--gold)', fontSize: 18, marginBottom: 12 }}>{'â˜…'.repeat(r.rating)}</div>      
                 <div style={{ fontSize: 15, color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 16, fontStyle: 'italic' }}>&ldquo;{r.text}&rdquo;</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}><strong style={{ color: 'rgba(255,255,255,0.7)' }}>{r.name}</strong> · {r.school}</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}><strong style={{ color: 'rgba(255,255,255,0.7)' }}>{r.name}</strong> Â· {r.school}</div>
               </div>
             ))}
           </div>
@@ -294,7 +294,7 @@ export default function Home() {
             <div>
               <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 22, color: 'var(--gold-light)', marginBottom: 12 }}>Chef Papi&apos;s Catering</div>
               <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7 }}>Community-focused catering and school lunch delivery serving MCPS and Montgomery County, MD.</p>
-              <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)' }}>📧 hello@chefpapiscatering.com</div>
+              <div style={{ marginTop: 16, fontSize: 13, color: 'var(--gold)' }}>ðŸ“§ hello@chefpapiscatering.com</div>   
             </div>
             <div>
               <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>Order</div>
@@ -310,8 +310,8 @@ export default function Home() {
             </div>
           </div>
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>© 2026 Chef Papi&apos;s Catering · Brunswick, MD</p>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>🔒 Secure payments via Stripe · PCI Compliant</p>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>Â© 2026 Chef Papi&apos;s Catering Â· Brunswick, MD</p>
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)' }}>ðŸ”’ Secure payments via Stripe Â· PCI Compliant</p>
           </div>
         </div>
       </footer>
