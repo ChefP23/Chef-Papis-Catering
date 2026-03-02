@@ -71,7 +71,7 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
             {[
               { image: "/images/jerk-chicken.jpg", tag: "Weekly - Fridays", title: "Foodie Friday", desc: "Weekly lunch delivery to MCPS, FCPS, and Frederick County school staff. Order by Wednesday, delivered Friday 10AM-1PM.", link: "/foodie-friday", cta: "Order This Week" },
-              { image: "/images/hero-bg.jpg", tag: "Events - Corporate - Private", title: "Event Catering", desc: "School events, corporate lunches, and private celebrations across Montgomery, Frederick, and surrounding counties. Minimum $400.", link: "#catering", cta: "Request a Quote" },
+              { image: "/images/hero-bg.jpg", tag: "Events - Corporate - Private", title: "Event Catering", desc: "School events, corporate lunches, and private celebrations across Montgomery, Frederick, and surrounding counties. Minimum $400.", link: "/inquiry", cta: "Request a Quote" },
               { image: "/images/meal-prep.jpg", tag: "Weekly - Sunday Pickup", title: "Weekly Meal Prep", desc: "5 fresh meals every week. $100/week or save 25% with a 4-week commitment. Sunday pickup at 6PM.", link: "/meal-prep", cta: "Learn More" },
             ].map((s) => (
               <Link key={s.title} href={s.link} style={{ background: "#fff", borderRadius: 20, overflow: "hidden", textDecoration: "none", display: "block", border: "1px solid rgba(45,74,62,0.12)" }}>
@@ -242,7 +242,7 @@ export default function Home() {
             </div>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 16 }}>Order</div>
-              {[{ label: "Foodie Friday", href: "/foodie-friday" }, { label: "Catering", href: "#catering" }, { label: "Meal Prep", href: "/meal-prep" }].map((l) => (
+              {[{ label: "Foodie Friday", href: "/foodie-friday" }, { label: "Catering", href: "/inquiry" }, { label: "Meal Prep", href: "/meal-prep" }].map((l) => (
                 <div key={l.label} style={{ marginBottom: 10 }}><Link href={l.href} style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>{l.label}</Link></div>
               ))}
             </div>
@@ -262,4 +262,5 @@ export default function Home() {
     </main>
   )
 }
+
 
