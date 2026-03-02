@@ -229,7 +229,7 @@ export default function Home() {
         </h2>
         <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
           <Link href="/foodie-friday" style={{ padding: "16px 36px", borderRadius: 8, background: "#C49A2B", color: "#1C1C1C", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>Order Foodie Friday</Link>
-          <a href="#catering" style={{ padding: "16px 36px", borderRadius: 8, background: "transparent", color: "#fff", fontSize: 15, fontWeight: 600, textDecoration: "none", border: "2px solid rgba(255,255,255,0.4)" }}>Book Catering</a>
+          <a href="/inquiry" style={{ padding: "16px 36px", borderRadius: 8, background: "transparent", color: "#fff", fontSize: 15, fontWeight: 600, textDecoration: "none", border: "2px solid rgba(255,255,255,0.4)" }}>Book Catering</a>
         </div>
       </section>
       <footer style={{ background: "#1C1C1C", borderTop: "1px solid rgba(196,154,43,0.2)", padding: "60px clamp(16px, 5vw, 64px) 32px" }}>
@@ -262,3 +262,4 @@ export default function Home() {
     </main>
   )
 }
+
