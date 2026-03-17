@@ -162,7 +162,7 @@ export default function Inquiry() {
 
                   {service === 'catering' && (
                     <>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#2D4A3E', marginBottom: 14, paddingTop: 4, borderTop: '1px solid rgba(45,74,62,0.08)', paddingTop: 20, fontFamily: 'var(--font-playfair)' }}>Event Details</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#2D4A3E', marginBottom: 14, borderTop: '1px solid rgba(45,74,62,0.08)', paddingTop: 20, fontFamily: 'var(--font-playfair)' }}>Event Details</div>
                       <div style={{ marginBottom: 16 }}>
                         <label style={labelStyle}>Type of Event *</label>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="form-2col">
