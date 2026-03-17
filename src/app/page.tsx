@@ -8,9 +8,6 @@ export default function Home() {
   ]
   return (
     <main style={{ background: "#FAF7F2", fontFamily: "var(--font-dm-sans)" }}>
-      <div style={{ background: "#FFF8E7", borderBottom: "1px solid rgba(196,154,43,0.3)", padding: "10px 24px", textAlign: "center", fontSize: "13px", color: "#4A4A4A" }}>
-        <strong style={{ color: "#9B1515" }}>Allergen Notice:</strong> Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy. Operating from a home kitchen while commercial licensing is in progress.
-      </div>
       <header style={{ background: "rgba(250,247,242,0.95)", borderBottom: "1px solid rgba(196,154,43,0.2)", padding: "0 clamp(16px, 5vw, 64px)", position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(12px)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
@@ -186,7 +183,7 @@ export default function Home() {
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>Catering</div>
             <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 4vw, 52px)", color: "#2D4A3E", marginBottom: 20 }}>We Bring the Party</h2>
             <p style={{ fontSize: 17, color: "#4A4A4A", lineHeight: 1.7, marginBottom: 36 }}>Chef handles school events, corporate lunches, private celebrations, and more across Brunswick, Montgomery County, Frederick County, and surrounding areas. Minimum $400. Secure your date with a 25% deposit.</p>
-            <Link href="/login" style={{ display: "inline-block", padding: "16px 36px", borderRadius: 10, background: "#2D4A3E", color: "#fff", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>Request a Quote</Link>
+            <Link href="/catering" style={{ display: "inline-block", padding: "16px 36px", borderRadius: 10, background: "#2D4A3E", color: "#fff", fontSize: 15, fontWeight: 700, textDecoration: "none" }}>Request a Quote</Link>
           </div>
           <div style={{ height: 400, borderRadius: 20, overflow: "hidden" }}>
             <img src="/images/gallery-1.jpg" alt="Catering" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -248,14 +245,22 @@ export default function Home() {
             </div>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 16 }}>Legal</div>
-              {["Terms and Conditions", "Privacy Policy", "Allergen Info"].map((l) => (
-                <div key={l} style={{ marginBottom: 10 }}><a href="#" style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>{l}</a></div>
+              {[
+                { label: "Terms and Conditions", href: "/terms" },
+                { label: "Privacy Policy", href: "/privacy-policy" },
+              ].map((l) => (
+                <div key={l.label} style={{ marginBottom: 10 }}><Link href={l.href} style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>{l.label}</Link></div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24, display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
-            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.25)" }}>2026 Chef Papi&apos;s Catering - Brunswick, MD</p>
-            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>Secure payments via Stripe - PCI Compliant</p>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.25)" }}>2026 Chef Papi&apos;s Catering - Brunswick, MD</p>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>Secure payments via Stripe - PCI Compliant</p>
+            </div>
+            <p style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", textAlign: "center", lineHeight: 1.5, maxWidth: 600 }}>
+              Allergen Notice: Prepared in a kitchen that handles shellfish, dairy, nuts, wheat, and soy. Please inform us of any allergies when placing your order.
+            </p>
           </div>
         </div>
       </footer>
