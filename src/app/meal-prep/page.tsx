@@ -1,10 +1,11 @@
 ﻿'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { useSearchParams } from 'next/navigation'
 
 export default function MealPrep() {
+  const searchParams = useSearchParams()
   const [form, setForm] = useState({
     full_name: '',
     email: '',
@@ -19,6 +20,13 @@ export default function MealPrep() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  // Check if returning from Stripe success
+  useEffect(() => {
+    if (searchParams.get('success') === '1') {
+      setSubmitted(true)
+    }
+  }, [searchParams])
+
   const set = (k: string, v: string) => setForm(prev => ({ ...prev, [k]: v }))
 
   async function handleSubmit() {
@@ -29,22 +37,28 @@ export default function MealPrep() {
     setLoading(true)
     setError('')
     try {
-      const supabase = createClient()
-      const { error: dbError } = await supabase.from('meal_prep_requests').insert([{
-        full_name: form.full_name,
-        email: form.email,
-        phone: form.phone,
-        plan: form.plan,
-        dietary_preferences: form.dietary,
-        allergies: form.allergies,
-        requested_start_date: form.start_date || null,
-        notes: form.notes,
-        status: 'new',
-      }])
-      if (dbError) throw dbError
-      setSubmitted(true)
-    } catch (e: any) {
-      setError('Something went wrong. Please try again or text us directly.')
+      const res = await fetch('/api/checkout/meal-prep', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name: form.full_name,
+          email: form.email,
+          phone: form.phone,
+          plan: form.plan,
+          dietary: form.dietary,
+          allergies: form.allergies,
+          start_date: form.start_date,
+          notes: form.notes,
+        }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setError(data.error || 'Checkout error. Please try again.')
+      }
+    } catch {
+      setError('Something went wrong. Please try again or call (301) 448-3475.')
     }
     setLoading(false)
   }
@@ -112,7 +126,7 @@ export default function MealPrep() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 24 }}>
             {[
-              { step: '01', title: 'Sign Up Below', desc: 'Fill out the form. Chef will confirm your start date within 24 hours.' },
+              { step: '01', title: 'Sign Up and Pay', desc: 'Fill out the form and pay securely online. Chef confirms your start date within 24 hours.' },
               { step: '02', title: 'Chef Cooks', desc: 'Every week Chef Papi preps 5 fresh, balanced meals from quality ingredients.' },
               { step: '03', title: 'Sunday Pickup', desc: 'Pick up your meals every Sunday at 6PM in Brunswick, MD.' },
               { step: '04', title: 'Eat Good', desc: 'Reheat and enjoy all week. No cooking, no stress, no compromise.' },
@@ -169,16 +183,17 @@ export default function MealPrep() {
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: '#C49A2B', marginBottom: 12 }}>Sign Up</div>
             <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(28px, 4vw, 44px)', color: '#2D4A3E', marginBottom: 12 }}>Ready to Start?</h2>
-            <p style={{ fontSize: 15, color: '#7A7A7A', lineHeight: 1.7 }}>Fill out the form below. Chef will reach out within 24 hours to confirm your start date and collect payment.</p>
+            <p style={{ fontSize: 15, color: '#7A7A7A', lineHeight: 1.7 }}>Fill out the form below and pay securely with Stripe. Chef will confirm your start date within 24 hours.</p>
           </div>
 
           {submitted ? (
             <div style={{ background: '#2D4A3E', borderRadius: 24, padding: '48px 40px', textAlign: 'center' }}>
-              <div style={{ fontSize: 56, marginBottom: 20 }}>congrats</div>
-              <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: 28, color: '#E8B84B', marginBottom: 16 }}>You are on the list!</h3>
-              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: 32 }}>
-                Chef Papi will reach out to {form.email} within 24 hours to confirm your start date and collect payment.
+              <div style={{ fontSize: 56, marginBottom: 20 }}>🎉</div>
+              <h3 style={{ fontFamily: 'var(--font-playfair)', fontSize: 28, color: '#E8B84B', marginBottom: 16 }}>Payment Confirmed!</h3>
+              <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.75)', lineHeight: 1.7, marginBottom: 12 }}>
+                Your meal prep is locked in. Chef Papi will reach out to confirm your start date and pickup details within 24 hours.
               </p>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)', marginBottom: 32 }}>A receipt has been sent to your email.</p>
               <Link href="/" style={{ display: 'inline-block', padding: '14px 32px', background: '#C49A2B', color: '#1C1C1C', borderRadius: 10, fontWeight: 700, textDecoration: 'none', fontSize: 15 }}>Back to Home</Link>
             </div>
           ) : (
@@ -239,10 +254,10 @@ export default function MealPrep() {
                 <textarea value={form.notes} onChange={e => set('notes', e.target.value)} placeholder="Anything else Chef should know?" rows={3} style={{ ...inputStyle, resize: 'vertical' as const, minHeight: 80 }} />
               </div>
               <button onClick={handleSubmit} disabled={loading} style={{ width: '100%', padding: 16, background: loading ? 'rgba(45,74,62,0.5)' : '#2D4A3E', color: '#fff', border: 'none', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
-                {loading ? 'Submitting...' : 'Request My Meal Prep'}
+                {loading ? 'Processing...' : form.plan === '4week' ? 'Pay $300 - Start Meal Prep' : 'Pay $100 - Start Meal Prep'}
               </button>
               <p style={{ fontSize: 12, color: '#7A7A7A', textAlign: 'center', marginTop: 16, lineHeight: 1.6 }}>
-                No payment collected here. Chef will contact you within 24 hours to confirm.
+                Secure payment via Stripe. Chef will confirm your start date within 24 hours.
               </p>
             </div>
           )}
@@ -261,7 +276,7 @@ export default function MealPrep() {
               { q: 'Can I customize my meals?', a: 'Yes. Dietary preferences and allergies are collected and Chef will accommodate where possible.' },
               { q: 'What if I need to skip a week?', a: 'Weekly plans can be paused or cancelled anytime with 48 hours notice.' },
               { q: 'How long do meals stay fresh?', a: 'All meals keep in the refrigerator for 4-5 days. Some can be frozen.' },
-              { q: 'How do I pay?', a: 'Chef will send a payment link after confirming your request. All major cards accepted.' },
+              { q: 'How do I pay?', a: 'Pay securely online with any major credit or debit card when you sign up. Payments are processed by Stripe.' },
             ].map(({ q, a }) => (
               <div key={q} style={{ background: '#fff', border: '1px solid rgba(45,74,62,0.1)', borderRadius: 14, padding: '20px 24px' }}>
                 <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 17, fontWeight: 700, color: '#2D4A3E', marginBottom: 8 }}>{q}</div>
