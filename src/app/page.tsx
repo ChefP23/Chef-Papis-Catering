@@ -1,6 +1,44 @@
 ﻿import Link from "next/link"
+import { createClient } from "@/lib/supabase/server"
 
-export default function Home() {
+export default async function Home() {
+  // Fetch this week's menu from Supabase
+  const supabase = await createClient()
+  const { data: cycles } = await supabase
+    .from("menu_cycles")
+    .select("*")
+    .eq("status", "published")
+    .order("delivery_date", { ascending: true })
+    .limit(1)
+
+  let menuPreview: { name: string; description: string; price: number; image: string; tag: string }[] = []
+
+  if (cycles && cycles.length > 0) {
+    const { data: items } = await supabase
+      .from("menu_items")
+      .select("*")
+      .eq("cycle_id", cycles[0].id)
+      .eq("is_available", true)
+      .order("sort_order")
+      .limit(3)
+
+    if (items && items.length > 0) {
+      menuPreview = items.map((item: any) => ({
+        name: item.name,
+        description: item.description || "",
+        price: Number(item.price),
+        image: item.name.toLowerCase().includes("alfredo") ? "/images/alfredo.jpg" : "/images/jerk-chicken.jpg",
+        tag: item.school_district === "MCPS" ? "Montgomery County Public Schools" : item.school_district === "FCPS" ? "Frederick County Public Schools" : "All Districts",
+      }))
+    }
+  }
+
+  // Fallback menu if nothing is published in Supabase
+  const displayMenu = menuPreview.length > 0 ? menuPreview : [
+    { image: "/images/jerk-chicken.jpg", name: "Jerk Chicken Plate", tag: "Montgomery County Public Schools", description: "Slow-marinated jerk chicken, seasoned rice and beans, buttered cabbage, and candied yams.", price: 25 },
+    { image: "/images/alfredo.jpg", name: "Chicken or Shrimp Alfredo", tag: "Frederick County Public Schools", description: "Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.", price: 25 },
+  ]
+
   const reviews = [
     { name: "Ms. Johnson", school: "Clarksburg HS", rating: 5, text: "The Jerk Chicken was incredible. Every Friday my whole department gathers around the food. Chef has ruined all other lunches for us!" },
     { name: "Mr. Williams", school: "Damascus HS", rating: 5, text: "Started a group order for our department and it was seamless. Everyone ordered separately, paid separately, food showed up hot and perfectly packed." },
@@ -19,7 +57,7 @@ export default function Home() {
           </Link>
           <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
             <a href="#services" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>What We Offer</a>
-            <a href="#about" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>About</a>
+            <Link href="/about" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>About</Link>
             <a href="#gallery" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Gallery</a>
             <a href="#reviews" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Reviews</a>
             <Link href="/foodie-friday" style={{ padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#fff", textDecoration: "none", background: "#2D4A3E", marginLeft: 8 }}>Order Now</Link>
@@ -47,12 +85,19 @@ export default function Home() {
       </section>
       <div style={{ background: "#2D4A3E", padding: "24px clamp(16px, 5vw, 64px)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-around", gap: 32, flexWrap: "wrap" }}>
-          {[{ num: "1,200+", label: "Meals Served" }, { num: "3 Counties", label: "MD Served" }, { num: "4.9", label: "Avg Rating" }, { num: "Every Friday", label: "School Delivery" }].map(({ num, label }, i, arr) => (
+          {[{ num: "1,200+", label: "Meals Served", href: "" }, { num: "3 Counties", label: "MD Served", href: "" }, { num: "4.9 ★", label: "Avg Rating", href: "#reviews" }, { num: "Every Friday", label: "School Delivery", href: "" }].map(({ num, label, href }, i, arr) => (
             <div key={label} style={{ display: "flex", alignItems: "center", gap: 32 }}>
-              <div style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "var(--font-playfair)", fontSize: 32, fontWeight: 700, color: "#E8B84B", lineHeight: 1 }}>{num}</div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", letterSpacing: 2, textTransform: "uppercase", marginTop: 4 }}>{label}</div>
-              </div>
+              {href ? (
+                <a href={href} style={{ textAlign: "center", textDecoration: "none", cursor: "pointer" }}>
+                  <div style={{ fontFamily: "var(--font-playfair)", fontSize: 32, fontWeight: 700, color: "#E8B84B", lineHeight: 1 }}>{num}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", letterSpacing: 2, textTransform: "uppercase", marginTop: 4, borderBottom: "1px dashed rgba(255,255,255,0.3)", paddingBottom: 2 }}>{label}</div>
+                </a>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontFamily: "var(--font-playfair)", fontSize: 32, fontWeight: 700, color: "#E8B84B", lineHeight: 1 }}>{num}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", letterSpacing: 2, textTransform: "uppercase", marginTop: 4 }}>{label}</div>
+                </div>
+              )}
               {i < arr.length - 1 && <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.15)" }} />}
             </div>
           ))}
@@ -133,10 +178,7 @@ export default function Home() {
             <Link href="/foodie-friday" style={{ fontSize: 14, fontWeight: 600, color: "#2D4A3E", textDecoration: "none", borderBottom: "2px solid #C49A2B", paddingBottom: 2 }}>View Full Menu</Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
-            {[
-              { image: "/images/jerk-chicken.jpg", name: "Jerk Chicken Plate", tag: "Montgomery County Public Schools", desc: "Slow-marinated jerk chicken, seasoned rice and beans, buttered cabbage, and candied yams.", price: 25 },
-              { image: "/images/alfredo.jpg", name: "Chicken or Shrimp Alfredo", tag: "Frederick County Public Schools", desc: "Creamy homemade alfredo sauce over fettuccine. Choose chicken, shrimp, or both.", price: 25 },
-            ].map((item) => (
+            {displayMenu.map((item) => (
               <div key={item.name} style={{ background: "#fff", border: "1px solid rgba(45,74,62,0.12)", borderRadius: 16, overflow: "hidden" }}>
                 <div style={{ height: 200, overflow: "hidden" }}>
                   <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -144,9 +186,9 @@ export default function Home() {
                 <div style={{ padding: 20, textAlign: "center" }}>
                   <div style={{ fontFamily: "var(--font-playfair)", fontSize: 20, fontWeight: 700, color: "#2D4A3E", marginBottom: 6 }}>{item.name}</div>
                   <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: "rgba(45,74,62,0.1)", color: "#2D4A3E" }}>{item.tag}</span>
-                  <div style={{ fontSize: 13, color: "#7A7A7A", marginBottom: 16, lineHeight: 1.5, marginTop: 8 }}>{item.desc}</div>
+                  <div style={{ fontSize: 13, color: "#7A7A7A", marginBottom: 16, lineHeight: 1.5, marginTop: 8 }}>{item.description}</div>
                   <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 16 }}>
-                    <div style={{ fontFamily: "var(--font-playfair)", fontSize: 24, fontWeight: 700, color: "#2D4A3E" }}>${item.price}.00</div>
+                    <div style={{ fontFamily: "var(--font-playfair)", fontSize: 24, fontWeight: 700, color: "#2D4A3E" }}>${item.price.toFixed(2)}</div>
                     <Link href="/foodie-friday" style={{ padding: "8px 20px", background: "#2D4A3E", color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>Order Now</Link>
                   </div>
                 </div>
