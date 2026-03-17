@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import Header from '@/components/Header'
 
 export default function MealPrep() {
   const searchParams = useSearchParams()
@@ -88,22 +89,12 @@ export default function MealPrep() {
 
   return (
     <main style={{ background: '#FAF7F2', fontFamily: 'var(--font-dm-sans)' }}>
-      <header style={{ background: 'rgba(250,247,242,0.95)', borderBottom: '1px solid rgba(196,154,43,0.2)', padding: '0 clamp(16px, 5vw, 64px)', position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
-            <div style={{ width: 48, height: 48, background: '#2D4A3E', border: '2px solid #C49A2B', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-playfair)', fontSize: 14, fontWeight: 900, color: '#E8B84B' }}>CP</div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 20, fontWeight: 700, color: '#2D4A3E', lineHeight: 1 }}>Chef Papi&apos;s</div>
-              <div style={{ fontSize: 10, color: '#C49A2B', letterSpacing: 3, textTransform: 'uppercase', fontWeight: 500 }}>Catering - Maryland</div>
-            </div>
-          </Link>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <a href="/#services" style={{ padding: '8px 14px', borderRadius: 6, fontSize: 14, fontWeight: 500, color: '#4A4A4A', textDecoration: 'none' }}>What We Offer</a>
-            <Link href="/catering" style={{ padding: '8px 14px', borderRadius: 6, fontSize: 14, fontWeight: 500, color: '#4A4A4A', textDecoration: 'none' }}>Catering</Link>
-            <Link href="/foodie-friday" style={{ padding: '10px 24px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', textDecoration: 'none', background: '#2D4A3E', marginLeft: 8 }}>Order Now</Link>
-          </nav>
-        </div>
-      </header>
+      <Header
+        links={[
+          { label: "What We Offer", href: "/#services" },
+          { label: "Catering", href: "/catering" },
+        ]}
+      />
 
       <section style={{ background: '#2D4A3E', padding: '80px clamp(16px, 5vw, 64px)', textAlign: 'center' }}>
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
@@ -145,7 +136,7 @@ export default function MealPrep() {
         <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: 'uppercase', color: '#C49A2B', marginBottom: 12 }}>Pricing</div>
           <h2 style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(28px, 4vw, 48px)', color: '#2D4A3E', marginBottom: 48 }}>Simple, Honest Pricing</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+          <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
             <div style={{ background: '#fff', border: '1px solid rgba(45,74,62,0.15)', borderRadius: 24, padding: 36, textAlign: 'center' }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: '#7A7A7A', letterSpacing: 2, textTransform: 'uppercase', marginBottom: 12 }}>Weekly</div>
               <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 56, fontWeight: 700, color: '#2D4A3E', lineHeight: 1 }}>$100</div>
@@ -201,7 +192,7 @@ export default function MealPrep() {
               {error && (
                 <div style={{ background: 'rgba(155,21,21,0.08)', border: '1px solid rgba(155,21,21,0.2)', borderRadius: 10, padding: '12px 16px', marginBottom: 24, fontSize: 14, color: '#9B1515' }}>{error}</div>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+              <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={labelStyle}>Full Name</label>
                   <input value={form.full_name} onChange={e => set('full_name', e.target.value)} placeholder="Your full name" style={inputStyle} />
@@ -217,7 +208,7 @@ export default function MealPrep() {
               </div>
               <div style={{ marginBottom: 16 }}>
                 <label style={labelStyle}>Choose Your Plan</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   {[
                     { val: 'weekly', label: 'Weekly', sub: '$100/week - 5 meals' },
                     { val: '4week', label: '4 Weeks', sub: '$300 total - Save 25%' },

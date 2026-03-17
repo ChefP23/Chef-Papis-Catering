@@ -38,3 +38,115 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-playfair), serif;
 }
+
+/* ========== MOBILE RESPONSIVE OVERRIDES ========== */
+
+/* Desktop nav links - hidden on mobile */
+.nav-desktop { display: flex; align-items: center; gap: 4px; }
+.nav-mobile-toggle { display: none; }
+.nav-mobile-menu { display: none; }
+
+/* Mobile hamburger & menu */
+@media (max-width: 768px) {
+  .nav-desktop { display: none !important; }
+  .nav-mobile-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 1.5px solid rgba(45,74,62,0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    color: #2D4A3E;
+    font-size: 22px;
+    padding: 0;
+  }
+  .nav-mobile-menu {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(250,247,242,0.98);
+    backdrop-filter: blur(20px);
+    padding: 24px;
+    gap: 8px;
+    z-index: 99;
+    animation: slideDown 0.25s ease;
+  }
+  .nav-mobile-menu a {
+    display: block;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2D4A3E;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-mobile-menu a:hover,
+  .nav-mobile-menu a:active {
+    background: rgba(45,74,62,0.06);
+  }
+  .nav-mobile-menu a.nav-cta {
+    background: #2D4A3E;
+    color: #fff;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* 2-column grids → single column on mobile */
+@media (max-width: 768px) {
+  .grid-2col { grid-template-columns: 1fr !important; }
+  .grid-3col { grid-template-columns: 1fr !important; }
+  .grid-4col { grid-template-columns: 1fr !important; }
+  .grid-sidebar { grid-template-columns: 1fr !important; }
+  .grid-footer { grid-template-columns: 1fr !important; text-align: center; }
+
+  /* Gallery: 2 columns on mobile instead of 4, no spanning */
+  .grid-gallery { grid-template-columns: 1fr 1fr !important; }
+  .grid-gallery > div { grid-column: span 1 !important; height: 180px !important; }
+
+  /* About hero image section */
+  .about-images { height: 300px !important; }
+  .about-images img:first-child { width: 100% !important; height: 280px !important; position: relative !important; }
+  .about-images img:nth-child(2) { display: none !important; }
+  .about-images > div:last-child { bottom: 10px !important; right: 10px !important; }
+
+  /* Stats bar */
+  .stats-bar { gap: 16px !important; }
+  .stats-bar > div { gap: 16px !important; }
+  .stats-divider { display: none !important; }
+
+  /* Form 2-col to single col */
+  .form-2col { grid-template-columns: 1fr !important; }
+
+  /* Foodie Friday sidebar becomes full-width on mobile */
+  .sidebar-sticky { position: relative !important; top: 0 !important; }
+
+  /* Section padding adjustments */
+  .section-pad { padding-top: 60px !important; padding-bottom: 60px !important; }
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .grid-sidebar { grid-template-columns: 1fr 320px !important; gap: 24px !important; }
+  .grid-4col { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* Small phone adjustments */
+@media (max-width: 480px) {
+  .grid-gallery { grid-template-columns: 1fr !important; }
+  .grid-gallery > div { height: 200px !important; }
+}

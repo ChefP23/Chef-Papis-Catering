@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Header from '@/components/Header'
 
 const MCPS_ELEMENTARY = ['Arcola ES','Ashburton ES','Bannockburn ES','Lucy V. Barnsley ES','Beall ES','Bel Pre ES','Bells Mill ES','Belmont ES','Bethesda ES','Beverly Farms ES','Bradley Hills ES','Brooke Grove ES','Brookhaven ES','Brown Station ES','Burning Tree ES','Burnt Mills ES','Burtonsville ES','Cabin Branch ES','Candlewood ES','Cannon Road ES','Carderock Springs ES','Rachel Carson ES','Cashell ES','Cedar Grove ES','Chevy Chase ES','Clarksburg ES','Clearspring ES','Clopper Mill ES','Cloverly ES','Cold Spring ES','College Gardens ES','Cresthaven ES','Capt. James E. Daly ES','Damascus ES','Darnestown ES','Diamond ES','Dr. Charles R. Drew ES','DuFief ES','East Silver Spring ES','Fairland ES','Fallsmead ES','Farmland ES','Fields Road ES','Flower Hill ES','Flower Valley ES','Forest Knolls ES','Fox Chapel ES','Gaithersburg ES','Galway ES','Garrett Park ES','Georgian Forest ES','Germantown ES','William B. Gibbs Jr. ES','Glen Haven ES','Glenallan ES','Goshen ES','Great Seneca Creek ES','Greencastle ES','Greenwood ES','Harmony Hills ES','Highland ES','Highland View ES','Jackson Road ES','Jones Lane ES','Kemp Mill ES','Kensington Parkwood ES','Lake Seneca ES','Lakewood ES','Laytonsville ES','JoAnn Leleck ES','Little Bennett ES','Luxmanor ES','Thurgood Marshall ES','Maryvale ES','McNair ES','Mill Creek Towne ES','Mills Farm ES','Minnehaha ES','Monocacy ES','Montgomery Knolls ES','New Hampshire Estates ES','Roscoe R. Nix ES','North Chevy Chase ES','Oak View ES','Olney ES','Pinecrest ES','Piney Branch ES','Potomac ES','Redland ES','Ridgeview ES','Rolling Terrace ES','Rosemont ES','Rosemary Hills ES','S. Christa McAuliffe ES','Seven Locks ES','Shady Grove ES','Sligo Creek ES','Somerset ES','South Lake ES','Stedwick ES','Stone Mill ES','Stonegate ES','Strathmore ES','Strawberry Knoll ES','Summit Hall ES','Takoma Park ES','Twinbrook ES','Whetstone ES','White Oak ES','Winding Brook ES','Wood Acres ES','Woodfield ES','Woodlin ES','Wyngate ES']
 const MCPS_MIDDLE = ['A. Mario Loiederman MS','Argyle MS','Benjamin Banneker MS','Briggs Chaney MS','Cabin John MS','Damascus MS','Forest Oak MS','Francis Scott Key MS','Herbert Hoover MS','Julius West MS','Kingsview MS','Lakelands Park MS','Martin Luther King Jr. MS','Montgomery Village MS','Neelsville MS','Newport Mill MS','North Bethesda MS','Parkland MS','Pyle MS','Roberto Clemente MS','Rocky Hill MS','Shady Grove MS','Silver Spring International MS','Sligo MS','Thomas W. Pyle MS','Tilden MS','Westland MS','White Oak MS']
@@ -123,25 +124,17 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
   return (
     <main style={{ minHeight: '100vh', background: '#FAF7F2', fontFamily: 'var(--font-dm-sans)' }}>
 
-      <header style={{ background: 'rgba(250,247,242,0.95)', borderBottom: '1px solid rgba(196,154,43,0.2)', padding: '0 clamp(16px, 5vw, 48px)', position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
-              <div style={{ width: 44, height: 44, background: '#2D4A3E', border: '2px solid #C49A2B', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-playfair)', fontSize: 13, fontWeight: 900, color: '#E8B84B' }}>CP</div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 18, fontWeight: 700, color: '#2D4A3E' }}>Chef Papi&apos;s</div>
-            </a>
-            <div style={{ background: 'rgba(196,154,43,0.15)', color: '#C49A2B', fontSize: 11, fontWeight: 700, padding: '3px 12px', borderRadius: 100, letterSpacing: 1, border: '1px solid rgba(196,154,43,0.3)' }}>FOODIE FRIDAY</div>
-          </div>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            {user
-              ? <a href="/account" style={{ fontSize: 13, color: '#2D4A3E', textDecoration: 'none', fontWeight: 600 }}>My Orders →</a>
-              : <a href="/login" style={{ padding: '8px 18px', borderRadius: 8, background: '#2D4A3E', color: '#fff', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>Sign In to Order</a>
-            }
-          </div>
-        </div>
-      </header>
+      <Header
+        links={[
+          { label: "What We Offer", href: "/#services" },
+          { label: "Meal Prep", href: "/meal-prep" },
+        ]}
+        ctaLabel={user ? "My Orders" : "Sign In to Order"}
+        ctaHref={user ? "/account" : "/login"}
+        badge="FOODIE FRIDAY"
+      />
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px clamp(16px, 5vw, 48px)', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
+      <div className="grid-sidebar" style={{ maxWidth: 1200, margin: '0 auto', padding: '40px clamp(16px, 5vw, 48px)', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
 
         <div>
           <div style={{ marginBottom: 32 }}>
@@ -220,7 +213,7 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
           )}
         </div>
 
-        <div style={{ position: 'sticky', top: 84 }}>
+        <div className="sidebar-sticky" style={{ position: 'sticky', top: 84 }}>
           <div style={{ background: '#fff', border: '1px solid rgba(45,74,62,0.15)', borderRadius: 20, padding: 24, boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
             <div style={{ fontSize: 16, fontWeight: 700, color: '#2D4A3E', marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
               <span>Your Order</span>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import Header from '@/components/Header'
 
 export default function CorporateCatering() {
   const [form, setForm] = useState({
@@ -60,21 +61,12 @@ export default function CorporateCatering() {
 
   return (
     <main style={{ background: '#FAF7F2', fontFamily: 'var(--font-dm-sans)' }}>
-      <header style={{ background: 'rgba(250,247,242,0.95)', borderBottom: '1px solid rgba(196,154,43,0.2)', padding: '0 clamp(16px, 5vw, 64px)', position: 'sticky', top: 0, zIndex: 100, backdropFilter: 'blur(12px)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
-            <div style={{ width: 48, height: 48, background: '#2D4A3E', border: '2px solid #C49A2B', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-playfair)', fontSize: 14, fontWeight: 900, color: '#E8B84B' }}>CP</div>
-            <div>
-              <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 20, fontWeight: 700, color: '#2D4A3E', lineHeight: 1 }}>Chef Papi&apos;s</div>
-              <div style={{ fontSize: 10, color: '#C49A2B', letterSpacing: 3, textTransform: 'uppercase', fontWeight: 500 }}>Catering - Maryland</div>
-            </div>
-          </Link>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Link href="/catering" style={{ padding: '8px 14px', borderRadius: 6, fontSize: 14, fontWeight: 500, color: '#4A4A4A', textDecoration: 'none' }}>Event Catering</Link>
-            <Link href="/foodie-friday" style={{ padding: '10px 24px', borderRadius: 8, fontSize: 14, fontWeight: 600, color: '#fff', textDecoration: 'none', background: '#2D4A3E', marginLeft: 8 }}>Order Now</Link>
-          </nav>
-        </div>
-      </header>
+      <Header
+        links={[
+          { label: "Event Catering", href: "/catering" },
+          { label: "Meal Prep", href: "/meal-prep" },
+        ]}
+      />
 
       <section style={{ background: '#2D4A3E', padding: '80px clamp(16px, 5vw, 64px)', textAlign: 'center' }}>
         <div style={{ maxWidth: 720, margin: '0 auto' }}>
@@ -162,7 +154,7 @@ export default function CorporateCatering() {
               )}
 
               <div style={{ fontSize: 13, fontWeight: 700, color: '#2D4A3E', marginBottom: 16, paddingBottom: 8, borderBottom: '1px solid rgba(45,74,62,0.1)', fontFamily: 'var(--font-playfair)' }}>Contact Info</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+              <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={labelStyle}>Full Name *</label>
                   <input value={form.full_name} onChange={e => set('full_name', e.target.value)} placeholder="Your full name" style={inputStyle} />
@@ -172,7 +164,7 @@ export default function CorporateCatering() {
                   <input value={form.company} onChange={e => set('company', e.target.value)} placeholder="Company or organization" style={inputStyle} />
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
+              <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
                 <div>
                   <label style={labelStyle}>Email *</label>
                   <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="your@company.com" style={inputStyle} />
@@ -186,7 +178,7 @@ export default function CorporateCatering() {
               <div style={{ fontSize: 13, fontWeight: 700, color: '#2D4A3E', marginBottom: 16, paddingBottom: 8, borderBottom: '1px solid rgba(45,74,62,0.1)', fontFamily: 'var(--font-playfair)' }}>Event Details</div>
               <div style={{ marginBottom: 16 }}>
                 <label style={labelStyle}>Type of Event *</label>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                   {eventTypes.map(type => (
                     <button key={type} onClick={() => set('event_type', type)} style={{ padding: '12px 14px', borderRadius: 10, border: `2px solid ${form.event_type === type ? '#2D4A3E' : 'rgba(45,74,62,0.15)'}`, background: form.event_type === type ? 'rgba(45,74,62,0.06)' : '#fff', cursor: 'pointer', textAlign: 'left', fontSize: 14, fontWeight: form.event_type === type ? 700 : 400, color: form.event_type === type ? '#2D4A3E' : '#4A4A4A', fontFamily: 'var(--font-dm-sans)' }}>
                       {type}
@@ -194,7 +186,7 @@ export default function CorporateCatering() {
                   ))}
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+              <div className="form-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
                 <div>
                   <label style={labelStyle}>Event Date</label>
                   <input type="date" value={form.event_date} onChange={e => set('event_date', e.target.value)} style={inputStyle} />

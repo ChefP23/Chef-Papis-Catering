@@ -26,9 +26,27 @@ export async function POST(req: NextRequest) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
+    const paymentType = session.metadata?.type
     const orderId = session.metadata?.order_id
     const customerId = session.metadata?.customer_id
 
+    // Handle Meal Prep payments
+    if (paymentType === 'meal_prep') {
+      const mealPrepRequestId = session.metadata?.meal_prep_request_id
+      if (mealPrepRequestId) {
+        await supabase
+          .from('meal_prep_requests')
+          .update({
+            status: 'paid',
+            paid_at: new Date().toISOString(),
+          })
+          .eq('id', mealPrepRequestId)
+
+        console.log(`Meal prep request ${mealPrepRequestId} marked as paid`)
+      }
+    }
+
+    // Handle Foodie Friday orders
     if (orderId) {
       // Update order to paid
       await supabase

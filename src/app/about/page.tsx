@@ -1,5 +1,6 @@
 import Link from "next/link"
 import type { Metadata } from "next"
+import Header from "@/components/Header"
 
 export const metadata: Metadata = {
   title: "About Chef Papi's | Our Story - Brunswick, MD Catering",
@@ -9,22 +10,12 @@ export const metadata: Metadata = {
 export default function About() {
   return (
     <main style={{ background: "#FAF7F2", fontFamily: "var(--font-dm-sans)" }}>
-      <header style={{ background: "rgba(250,247,242,0.95)", borderBottom: "1px solid rgba(196,154,43,0.2)", padding: "0 clamp(16px, 5vw, 64px)", position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(12px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
-            <div style={{ width: 48, height: 48, background: "#2D4A3E", border: "2px solid #C49A2B", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-playfair)", fontSize: 14, fontWeight: 900, color: "#E8B84B" }}>CP</div>
-            <div>
-              <div style={{ fontFamily: "var(--font-playfair)", fontSize: 20, fontWeight: 700, color: "#2D4A3E", lineHeight: 1 }}>Chef Papi&apos;s</div>
-              <div style={{ fontSize: 10, color: "#C49A2B", letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>Catering - Maryland</div>
-            </div>
-          </Link>
-          <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <Link href="/#services" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>What We Offer</Link>
-            <Link href="/#reviews" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Reviews</Link>
-            <Link href="/foodie-friday" style={{ padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#fff", textDecoration: "none", background: "#2D4A3E", marginLeft: 8 }}>Order Now</Link>
-          </nav>
-        </div>
-      </header>
+      <Header
+        links={[
+          { label: "What We Offer", href: "/#services" },
+          { label: "Reviews", href: "/#reviews" },
+        ]}
+      />
 
       <section style={{ background: "#2D4A3E", padding: "80px clamp(16px, 5vw, 64px)", textAlign: "center" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
@@ -36,7 +27,7 @@ export default function About() {
       </section>
 
       <section style={{ padding: "80px clamp(16px, 5vw, 64px)" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+        <div className="grid-2col" style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
           <div>
             <div style={{ height: 480, borderRadius: 20, overflow: "hidden" }}>
               <img src="/images/gallery-3.jpg" alt="Chef Marcus at work" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -66,12 +57,12 @@ export default function About() {
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>What We Stand For</div>
             <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(28px, 4vw, 44px)", color: "#2D4A3E" }}>Built Different</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 24 }}>
             {[
-              { icon: "🌿", title: "Fresh Ingredients Always", desc: "No shortcuts, no frozen reheats, no cutting corners. Every meal starts with quality ingredients, prepared fresh the day of. You can taste the difference." },
-              { icon: "🔥", title: "Bold, Honest Flavor", desc: "Inspired by Caribbean roots, Maryland culture, and years of perfecting every recipe. This isn't generic catering food — it's food people actually look forward to." },
-              { icon: "🤝", title: "Community First", desc: "Built for the teachers, counselors, administrators, and families who keep Maryland communities running. You show up for everyone else — let me show up for you." },
-              { icon: "💪", title: "Food as Fuel", desc: "My own health journey taught me that what you eat matters. Every dish balances bold flavor with real nutrition. You should feel good after you eat, not just full." },
+              { icon: "\u{1F33F}", title: "Fresh Ingredients Always", desc: "No shortcuts, no frozen reheats, no cutting corners. Every meal starts with quality ingredients, prepared fresh the day of. You can taste the difference." },
+              { icon: "\u{1F525}", title: "Bold, Honest Flavor", desc: "Inspired by Caribbean roots, Maryland culture, and years of perfecting every recipe. This isn\u2019t generic catering food \u2014 it\u2019s food people actually look forward to." },
+              { icon: "\u{1F91D}", title: "Community First", desc: "Built for the teachers, counselors, administrators, and families who keep Maryland communities running. You show up for everyone else \u2014 let me show up for you." },
+              { icon: "\u{1F4AA}", title: "Food as Fuel", desc: "My own health journey taught me that what you eat matters. Every dish balances bold flavor with real nutrition. You should feel good after you eat, not just full." },
             ].map(({ icon, title, desc }) => (
               <div key={title} style={{ background: "#fff", borderRadius: 20, padding: "32px 28px", border: "1px solid rgba(45,74,62,0.1)" }}>
                 <div style={{ width: 52, height: 52, background: "rgba(196,154,43,0.15)", border: "1px solid rgba(196,154,43,0.25)", borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, marginBottom: 16 }}>{icon}</div>
@@ -89,9 +80,9 @@ export default function About() {
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>Where We Serve</div>
             <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(28px, 4vw, 44px)", color: "#2D4A3E" }}>Proudly Maryland</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          <div className="form-2col" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
             {[
-              { area: "Brunswick, MD", detail: "Home base — meal prep pickup location" },
+              { area: "Brunswick, MD", detail: "Home base \u2014 meal prep pickup location" },
               { area: "Montgomery County", detail: "MCPS school delivery + event catering" },
               { area: "Frederick County", detail: "FCPS school delivery + event catering" },
               { area: "Surrounding Areas", detail: "Corporate events + private celebrations" },
@@ -125,7 +116,7 @@ export default function About() {
       <footer style={{ background: "#1C1C1C", padding: "40px clamp(16px, 5vw, 64px) 32px", borderTop: "1px solid rgba(196,154,43,0.2)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div style={{ fontFamily: "var(--font-playfair)", fontSize: 18, color: "#E8B84B" }}>Chef Papi&apos;s Catering</div>
-          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
             <a href="tel:+13014483475" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>(301) 448-3475</a>
             <span style={{ fontSize: 13, color: "rgba(255,255,255,0.15)" }}>|</span>
             <Link href="/terms" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>Terms</Link>

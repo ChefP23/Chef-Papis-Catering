@@ -1,5 +1,6 @@
 ﻿import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
+import Header from "@/components/Header"
 
 export default async function Home() {
   // Fetch this week's menu from Supabase
@@ -46,24 +47,14 @@ export default async function Home() {
   ]
   return (
     <main style={{ background: "#FAF7F2", fontFamily: "var(--font-dm-sans)" }}>
-      <header style={{ background: "rgba(250,247,242,0.95)", borderBottom: "1px solid rgba(196,154,43,0.2)", padding: "0 clamp(16px, 5vw, 64px)", position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(12px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
-            <div style={{ width: 48, height: 48, background: "#2D4A3E", border: "2px solid #C49A2B", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-playfair)", fontSize: 14, fontWeight: 900, color: "#E8B84B", letterSpacing: 1 }}>CP</div>
-            <div>
-              <div style={{ fontFamily: "var(--font-playfair)", fontSize: 20, fontWeight: 700, color: "#2D4A3E", lineHeight: 1 }}>Chef Papi&apos;s</div>
-              <div style={{ fontSize: 10, color: "#C49A2B", letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>Catering - Maryland</div>
-            </div>
-          </Link>
-          <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <a href="#services" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>What We Offer</a>
-            <Link href="/about" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>About</Link>
-            <a href="#gallery" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Gallery</a>
-            <a href="#reviews" style={{ padding: "8px 14px", borderRadius: 6, fontSize: 14, fontWeight: 500, color: "#4A4A4A", textDecoration: "none" }}>Reviews</a>
-            <Link href="/foodie-friday" style={{ padding: "10px 24px", borderRadius: 8, fontSize: 14, fontWeight: 600, color: "#fff", textDecoration: "none", background: "#2D4A3E", marginLeft: 8 }}>Order Now</Link>
-          </nav>
-        </div>
-      </header>
+      <Header
+        links={[
+          { label: "What We Offer", href: "#services", isAnchor: true },
+          { label: "About", href: "/about" },
+          { label: "Gallery", href: "#gallery", isAnchor: true },
+          { label: "Reviews", href: "#reviews", isAnchor: true },
+        ]}
+      />
       <section style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "url(/images/hero-bg.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(28,28,28,0.78) 0%, rgba(45,74,62,0.62) 50%, rgba(28,28,28,0.52) 100%)" }} />
@@ -84,7 +75,7 @@ export default async function Home() {
         </div>
       </section>
       <div style={{ background: "#2D4A3E", padding: "24px clamp(16px, 5vw, 64px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-around", gap: 32, flexWrap: "wrap" }}>
+        <div className="stats-bar" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-around", gap: 32, flexWrap: "wrap" }}>
           {[{ num: "1,200+", label: "Meals Served", href: "" }, { num: "3 Counties", label: "MD Served", href: "" }, { num: "4.9 ★", label: "Avg Rating", href: "#reviews" }, { num: "Every Friday", label: "School Delivery", href: "" }].map(({ num, label, href }, i, arr) => (
             <div key={label} style={{ display: "flex", alignItems: "center", gap: 32 }}>
               {href ? (
@@ -98,7 +89,7 @@ export default async function Home() {
                   <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", letterSpacing: 2, textTransform: "uppercase", marginTop: 4 }}>{label}</div>
                 </div>
               )}
-              {i < arr.length - 1 && <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.15)" }} />}
+              {i < arr.length - 1 && <div className="stats-divider" style={{ width: 1, height: 40, background: "rgba(255,255,255,0.15)" }} />}
             </div>
           ))}
         </div>
@@ -133,7 +124,7 @@ export default async function Home() {
         </div>
       </section>
       <section id="about" style={{ background: "#2D4A3E", padding: "100px clamp(16px, 5vw, 64px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        <div className="grid-2col" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: "#E8B84B", marginBottom: 16, textAlign: "center" }}>Our Story</div>
             <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 700, color: "#fff", lineHeight: 1.1, marginBottom: 24, textAlign: "center" }}>
@@ -161,7 +152,7 @@ export default async function Home() {
               ))}
             </div>
           </div>
-          <div style={{ position: "relative", height: 520 }}>
+          <div className="about-images" style={{ position: "relative", height: 520 }}>
             <img src="/images/gallery-3.jpg" alt="Food" style={{ position: "absolute", top: 0, right: 0, width: "85%", height: 420, objectFit: "cover", borderRadius: 16, display: "block" }} />
             <img src="/images/gallery-2.jpg" alt="Food" style={{ position: "absolute", bottom: 0, left: 0, width: "60%", height: 280, objectFit: "cover", borderRadius: 16, border: "4px solid #2D4A3E", display: "block" }} />
             <div style={{ position: "absolute", bottom: 60, right: -16, background: "#C49A2B", color: "#1C1C1C", padding: "16px 20px", borderRadius: 12, textAlign: "center", fontWeight: 700, fontSize: 13, lineHeight: 1.3, boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
@@ -204,7 +195,7 @@ export default async function Home() {
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>The Food</div>
             <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 5vw, 56px)", color: "#2D4A3E" }}>Made Fresh. Every Time.</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+          <div className="grid-gallery" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             {[
               { src: "/images/gallery-1.jpg", span: 2, height: 320, caption: "Jerk Chicken Spread", sub: "School Staff Lunch" },
               { src: "/images/gallery-2.jpg", span: 1, height: 320, caption: "Shrimp Alfredo", sub: "Foodie Friday" },
@@ -225,7 +216,7 @@ export default async function Home() {
         </div>
       </section>
       <section id="catering" style={{ background: "#FAF7F2", padding: "100px clamp(16px, 5vw, 64px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
+        <div className="grid-2col" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "#C49A2B", marginBottom: 12 }}>Catering</div>
             <h2 style={{ fontFamily: "var(--font-playfair)", fontSize: "clamp(32px, 4vw, 52px)", color: "#2D4A3E", marginBottom: 20 }}>We Bring the Party</h2>
@@ -278,7 +269,7 @@ export default async function Home() {
       </section>
       <footer style={{ background: "#1C1C1C", borderTop: "1px solid rgba(196,154,43,0.2)", padding: "60px clamp(16px, 5vw, 64px) 32px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
+          <div className="grid-footer" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontFamily: "var(--font-playfair)", fontSize: 24, color: "#E8B84B", marginBottom: 12 }}>Chef Papi&apos;s Catering</div>
               <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: 16 }}>Community-focused catering and school lunch delivery serving MCPS, FCPS, Frederick County, and surrounding areas in Maryland.</p>
