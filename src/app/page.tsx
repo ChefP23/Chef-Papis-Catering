@@ -68,7 +68,8 @@ export default function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
             {[
               { image: "/images/jerk-chicken.jpg", tag: "Weekly - Fridays", title: "Foodie Friday", desc: "Weekly lunch delivery to MCPS, FCPS, and Frederick County school staff. Order by Wednesday, delivered Friday 10AM-1PM.", link: "/foodie-friday", cta: "Order This Week" },
-              { image: "/images/hero-bg.jpg", tag: "Events - Corporate - Private", title: "Event Catering", desc: "School events, corporate lunches, and private celebrations across Montgomery, Frederick, and surrounding counties. Minimum $400.", link: "/inquiry", cta: "Request a Quote" },
+              { image: "/images/hero-bg.jpg", tag: "Events - Private", title: "Event Catering", desc: "School events, birthdays, and private celebrations across Montgomery, Frederick, and surrounding counties. Minimum $400.", link: "/catering", cta: "Request a Quote" },
+              { image: "/images/gallery-3.jpg", tag: "Corporate - Teams - Clients", title: "Corporate Catering", desc: "Team lunches, client events, and recurring office catering. Custom menus, professional service, fair pricing.", link: "/corporate", cta: "Get a Quote" },
               { image: "/images/meal-prep.jpg", tag: "Weekly - Sunday Pickup", title: "Weekly Meal Prep", desc: "5 fresh meals every week. $100/week or save 25% with a 4-week commitment. Sunday pickup at 6PM.", link: "/meal-prep", cta: "Learn More" },
             ].map((s) => (
               <Link key={s.title} href={s.link} style={{ background: "#fff", borderRadius: 20, overflow: "hidden", textDecoration: "none", display: "block", border: "1px solid rgba(45,74,62,0.12)" }}>
@@ -163,15 +164,19 @@ export default function Home() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             {[
-              { src: "/images/gallery-1.jpg", span: 2, height: 320 },
-              { src: "/images/gallery-2.jpg", span: 1, height: 320 },
-              { src: "/images/gallery-3.jpg", span: 1, height: 320 },
-              { src: "/images/gallery-4.jpg", span: 1, height: 260 },
-              { src: "/images/gallery-5.jpg", span: 1, height: 260 },
-              { src: "/images/gallery-6.jpg", span: 2, height: 260 },
+              { src: "/images/gallery-1.jpg", span: 2, height: 320, caption: "Jerk Chicken Spread", sub: "School Staff Lunch" },
+              { src: "/images/gallery-2.jpg", span: 1, height: 320, caption: "Shrimp Alfredo", sub: "Foodie Friday" },
+              { src: "/images/gallery-3.jpg", span: 1, height: 320, caption: "Catering Setup", sub: "Frederick County Event" },
+              { src: "/images/gallery-4.jpg", span: 1, height: 260, caption: "Rice and Beans", sub: "Caribbean Inspired" },
+              { src: "/images/gallery-5.jpg", span: 1, height: 260, caption: "Meal Prep Packs", sub: "Weekly Meal Prep" },
+              { src: "/images/gallery-6.jpg", span: 2, height: 260, caption: "Candied Yams and Sides", sub: "Staff Celebration" },
             ].map((img, i) => (
-              <div key={i} style={{ gridColumn: `span ${img.span}`, height: img.height, borderRadius: 12, overflow: "hidden" }}>
-                <img src={img.src} alt={`Food ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <div key={i} style={{ gridColumn: `span ${img.span}`, height: img.height, borderRadius: 12, overflow: "hidden", position: "relative" }}>
+                <img src={img.src} alt={img.caption} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 16px 12px", background: "linear-gradient(transparent, rgba(0,0,0,0.6))" }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{img.caption}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)" }}>{img.sub}</div>
+                </div>
               </div>
             ))}
           </div>
@@ -235,11 +240,20 @@ export default function Home() {
             <div style={{ textAlign: "center" }}>
               <div style={{ fontFamily: "var(--font-playfair)", fontSize: 24, color: "#E8B84B", marginBottom: 12 }}>Chef Papi&apos;s Catering</div>
               <p style={{ fontSize: 14, color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: 16 }}>Community-focused catering and school lunch delivery serving MCPS, FCPS, Frederick County, and surrounding areas in Maryland.</p>
-              <div style={{ fontSize: 13, color: "#C49A2B" }}>hello@chefpapiscatering.com</div>
+              <div style={{ fontSize: 13, color: "#C49A2B", marginBottom: 6 }}>hello@chefpapiscatering.com</div>
+              <a href="tel:+13014483475" style={{ fontSize: 13, color: "#C49A2B", textDecoration: "none" }}>(301) 448-3475</a>
+              <div style={{ display: "flex", gap: 12, marginTop: 16, justifyContent: "center" }}>
+                <a href="https://instagram.com/chefpapiscatering" target="_blank" rel="noopener noreferrer" style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", fontSize: 16 }} aria-label="Instagram">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://tiktok.com/@chefpapiscatering" target="_blank" rel="noopener noreferrer" style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", fontSize: 16 }} aria-label="TikTok">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.5)"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.53a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.26 8.26 0 0 0 4.84 1.56V6.8a4.83 4.83 0 0 1-1.08-.11z"/></svg>
+                </a>
+              </div>
             </div>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 16 }}>Order</div>
-              {[{ label: "Foodie Friday", href: "/foodie-friday" }, { label: "Catering", href: "/inquiry" }, { label: "Meal Prep", href: "/meal-prep" }].map((l) => (
+              {[{ label: "Foodie Friday", href: "/foodie-friday" }, { label: "Catering", href: "/catering" }, { label: "Meal Prep", href: "/meal-prep" }, { label: "Corporate Catering", href: "/corporate" }].map((l) => (
                 <div key={l.label} style={{ marginBottom: 10 }}><Link href={l.href} style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>{l.label}</Link></div>
               ))}
             </div>
