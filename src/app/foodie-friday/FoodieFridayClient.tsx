@@ -12,7 +12,7 @@ const FCPS_ELEMENTARY = ['Ballenger Creek ES','Blue Heron ES','Brunswick ES','Bu
 const FCPS_MIDDLE = ['Ballenger Creek MS','Brunswick MS','Crestwood MS','Governor Thomas Johnson MS','Middletown MS','Monocacy MS','New Market MS','Oakdale MS','Thurmont MS','Urbana MS','Walkersville MS','West Frederick MS','Windsor Knolls MS']
 const FCPS_HIGH = ['Brunswick HS','Catoctin HS','Frederick HS','Governor Thomas Johnson HS','Linganore HS','Middletown HS','Oakdale HS','Tuscarora HS','Urbana HS','Walkersville HS']
 
-function Countdown({ cutoff }: { cutoff: string }) {
+function Countdown({ cutoff, onExpire }: { cutoff: string, onExpire?: () => void }) {
   const [time, setTime] = useState({ days: 0, hours: 0, mins: 0, secs: 0 })
   const [expired, setExpired] = useState(false)
 
@@ -20,7 +20,7 @@ function Countdown({ cutoff }: { cutoff: string }) {
     if (!cutoff) return
     function update() {
       const diff = new Date(cutoff).getTime() - Date.now()
-      if (diff <= 0) { setExpired(true); return }
+      if (diff <= 0) { setExpired(true); onExpire?.(); return }
       setTime({
         days: Math.floor(diff / 86400000),
         hours: Math.floor((diff % 86400000) / 3600000),
@@ -70,9 +70,11 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
   const [proteinChoice, setProteinChoice] = useState<{ [itemId: string]: string }>({})
   const [phone, setPhone] = useState('')
   const [smsOptIn, setSmsOptIn] = useState(false)
+  const [expiredItems, setExpiredItems] = useState<Set<string>>(new Set())
   const router = useRouter()
 
   const addToCart = (item: MenuItem) => {
+    if (expiredItems.has(item.id) || (item.cutoff_datetime && new Date(item.cutoff_datetime).getTime() < Date.now())) return
     const isAlfredo = item.name.toLowerCase().includes('alfredo')
     if (isAlfredo && !proteinChoice[item.id]) { alert('Please select a protein option before adding to cart.'); return }
     const protein = proteinChoice[item.id]
@@ -179,7 +181,7 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
                       <div>
                         {itemDeliveryDate && <div style={{ fontSize: 12, color: '#C49A2B', fontWeight: 600, marginBottom: 8 }}>Delivery: {itemDeliveryDate}</div>}
                         <div style={{ fontSize: 11, color: '#7A7A7A', marginBottom: 6, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Order Cutoff</div>
-                        <Countdown cutoff={item.cutoff_datetime || ''} />
+                        <Countdown cutoff={item.cutoff_datetime || ''} onExpire={() => setExpiredItems(prev => new Set(prev).add(item.id))} />
                       </div>
 
                       {isAlfredo && (
@@ -200,10 +202,17 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
 
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 8 }}>
                         <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 24, fontWeight: 700, color: '#2D4A3E' }}>${Number(item.price).toFixed(2)}</div>
-                        <button onClick={() => addToCart(item)}
-                          style={{ padding: '10px 22px', background: '#2D4A3E', color: '#fff', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
-                          Add to Cart
-                        </button>
+                        {expiredItems.has(item.id) ? (
+                          <button disabled
+                            style={{ padding: '10px 22px', background: '#9B1515', color: '#fff', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'not-allowed', fontFamily: 'var(--font-dm-sans)', opacity: 0.85 }}>
+                            Order Closed
+                          </button>
+                        ) : (
+                          <button onClick={() => addToCart(item)}
+                            style={{ padding: '10px 22px', background: '#2D4A3E', color: '#fff', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-dm-sans)' }}>
+                            Add to Cart
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
