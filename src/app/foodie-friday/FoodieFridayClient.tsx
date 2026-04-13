@@ -68,6 +68,8 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
   const [staffName, setStaffName] = useState('')
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [proteinChoice, setProteinChoice] = useState<{ [itemId: string]: string }>({})
+  const [swapSalad, setSwapSalad] = useState<{ [itemId: string]: boolean }>({})
+  const [addSideSalad, setAddSideSalad] = useState<{ [itemId: string]: boolean }>({})
   const [phone, setPhone] = useState('')
   const [smsOptIn, setSmsOptIn] = useState(false)
   const [expiredItems, setExpiredItems] = useState<Set<string>>(new Set())
@@ -78,12 +80,24 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
     const isAlfredo = item.name.toLowerCase().includes('alfredo')
     if (isAlfredo && !proteinChoice[item.id]) { alert('Please select a protein option before adding to cart.'); return }
     const protein = proteinChoice[item.id]
-    const cartId = item.id + (protein || '')
-    const displayName = protein ? `${item.name} (${protein})` : item.name
+    const swap = swapSalad[item.id] || false
+    const side = addSideSalad[item.id] || false
+    const addOnSuffix = [protein, swap ? 'swap-salad' : '', side ? 'side-salad' : ''].filter(Boolean).join('|')
+    const cartId = item.id + (addOnSuffix ? '|' + addOnSuffix : '')
+
+    const nameParts: string[] = []
+    if (protein) nameParts.push(protein)
+    if (swap) nameParts.push('Kale salad instead of fries')
+    if (side) nameParts.push('+ Side kale salad')
+    const displayName = nameParts.length > 0 ? `${item.name} (${nameParts.join(', ')})` : item.name
+
+    const addOnPrice = side ? 5 : 0
+    const itemTotal = Number(item.price) + addOnPrice
+
     setCart(prev => {
       const existing = prev.find(i => i.cartId === cartId)
       if (existing) return prev.map(i => i.cartId === cartId ? { ...i, quantity: i.quantity + 1 } : i)
-      return [...prev, { ...item, cartId, displayName, protein, quantity: 1 }]
+      return [...prev, { ...item, cartId, displayName, protein, swapSalad: swap, sideSalad: side, price: itemTotal, quantity: 1 }]
     })
   }
 
@@ -110,7 +124,7 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
       const res = await fetch('/api/checkout/foodie-friday', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart, school, staffName, cycleId: cart[0]?.cycle_id, phone: smsOptIn ? phone : null, smsOptIn }),
+        body: JSON.stringify({ items: cart.map(i => ({ ...i, swapSalad: i.swapSalad || false, sideSalad: i.sideSalad || false })), school, staffName, cycleId: cart[0]?.cycle_id, phone: smsOptIn ? phone : null, smsOptIn }),
       })
       const data = await res.json()
       if (data.url) window.location.href = data.url
@@ -200,8 +214,32 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
                         </div>
                       )}
 
+                      <div>
+                        <div style={{ fontSize: 12, color: '#4A4A4A', marginBottom: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1 }}>Customize</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                            <input
+                              type="checkbox"
+                              checked={swapSalad[item.id] || false}
+                              onChange={e => setSwapSalad(prev => ({ ...prev, [item.id]: e.target.checked }))}
+                              style={{ width: 18, height: 18, cursor: 'pointer', accentColor: '#2D4A3E' }}
+                            />
+                            <span style={{ fontSize: 13, color: '#4A4A4A' }}>Swap fries for kale salad <span style={{ color: '#2D4A3E', fontWeight: 700 }}>FREE</span></span>
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                            <input
+                              type="checkbox"
+                              checked={addSideSalad[item.id] || false}
+                              onChange={e => setAddSideSalad(prev => ({ ...prev, [item.id]: e.target.checked }))}
+                              style={{ width: 18, height: 18, cursor: 'pointer', accentColor: '#2D4A3E' }}
+                            />
+                            <span style={{ fontSize: 13, color: '#4A4A4A' }}>Add side kale salad <span style={{ color: '#C49A2B', fontWeight: 700 }}>+$5.00</span></span>
+                          </label>
+                        </div>
+                      </div>
+
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 8 }}>
-                        <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 24, fontWeight: 700, color: '#2D4A3E' }}>${Number(item.price).toFixed(2)}</div>
+                        <div style={{ fontFamily: 'var(--font-playfair)', fontSize: 24, fontWeight: 700, color: '#2D4A3E' }}>${(Number(item.price) + (addSideSalad[item.id] ? 5 : 0)).toFixed(2)}</div>
                         {expiredItems.has(item.id) ? (
                           <button disabled
                             style={{ padding: '10px 22px', background: '#9B1515', color: '#fff', border: 'none', borderRadius: 10, fontSize: 14, fontWeight: 700, cursor: 'not-allowed', fontFamily: 'var(--font-dm-sans)', opacity: 0.85 }}>
