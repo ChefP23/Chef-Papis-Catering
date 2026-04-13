@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foodie Friday - April 24, 2026 | Chef Papi's Catering</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #1a1a1a; }
+  .flyer {
+    width: 1080px; height: 1350px; background: #0a1628; position: relative; overflow: hidden;
+    font-family: 'DM Sans', sans-serif; color: #fff;
+  }
+  .flyer::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 20%, rgba(212,168,67,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(212,168,67,0.04) 0%, transparent 50%);
+  }
+  .border-frame {
+    position: absolute; inset: 20px; border: 1px solid rgba(212,168,67,0.25); border-radius: 8px; pointer-events: none;
+  }
+  .corner { position: absolute; width: 24px; height: 24px; border-color: #d4a843; border-style: solid; }
+  .corner-tl { top: 16px; left: 16px; border-width: 2px 0 0 2px; }
+  .corner-tr { top: 16px; right: 16px; border-width: 2px 2px 0 0; }
+  .corner-bl { bottom: 16px; left: 16px; border-width: 0 0 2px 2px; }
+  .corner-br { bottom: 16px; right: 16px; border-width: 0 2px 2px 0; }
+  .content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; height: 100%; padding: 48px 60px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(212,168,67,0.15); border: 1px solid rgba(212,168,67,0.4); border-radius: 100px;
+    padding: 8px 24px; font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #d4a843;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #d4a843; }
+  .title {
+    font-family: 'Cinzel', serif; font-size: 82px; font-weight: 900; letter-spacing: 4px;
+    text-transform: uppercase; color: #fff; margin-top: 28px; text-align: center; line-height: 1;
+  }
+  .title span { color: #d4a843; }
+  .date-line {
+    font-family: 'Playfair Display', serif; font-style: italic; font-size: 24px; color: rgba(255,255,255,0.7);
+    margin-top: 12px; letter-spacing: 1px;
+  }
+  .divider { width: 120px; height: 1px; background: linear-gradient(90deg, transparent, #d4a843, transparent); margin: 28px 0; }
+  .menu-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(212,168,67,0.2); border-radius: 20px;
+    padding: 40px 52px; text-align: center; width: 100%; max-width: 860px;
+  }
+  .menu-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #d4a843; margin-bottom: 16px;
+  }
+  .menu-item-name {
+    font-family: 'Cinzel', serif; font-size: 42px; font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 12px;
+  }
+  .menu-desc {
+    font-size: 17px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto;
+  }
+  .price-tag {
+    display: inline-flex; align-items: baseline; gap: 4px;
+    font-family: 'Cinzel', serif; font-size: 56px; font-weight: 900; color: #d4a843;
+  }
+  .price-tag .dollar { font-size: 32px; }
+  .options {
+    display: flex; gap: 16px; justify-content: center; margin-top: 20px; flex-wrap: wrap;
+  }
+  .option-chip {
+    background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.25); border-radius: 100px;
+    padding: 8px 20px; font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 500;
+  }
+  .option-chip strong { color: #d4a843; }
+  .info-cards {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; width: 100%; max-width: 860px; margin-top: auto;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(212,168,67,0.15); border-radius: 16px;
+    padding: 24px 20px; text-align: center;
+  }
+  .info-icon { font-size: 28px; margin-bottom: 10px; }
+  .info-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #d4a843; margin-bottom: 6px; }
+  .info-value { font-family: 'Playfair Display', serif; font-size: 16px; color: #fff; line-height: 1.4; }
+  .info-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .qr-label { font-size: 13px; color: #d4a843; font-weight: 600; margin-top: 8px; letter-spacing: 1px; }
+  .footer {
+    display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 32px; width: 100%;
+  }
+  .footer-text { font-size: 13px; color: rgba(255,255,255,0.35); }
+  .footer-brand { font-family: 'Cinzel', serif; font-size: 14px; color: rgba(212,168,67,0.6); font-weight: 700; }
+  .soy-free {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 4px 14px;
+  }
+</style>
+</head>
+<body>
+<div class="flyer">
+  <div class="border-frame"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div class="content">
+    <div class="badge"><span class="badge-dot"></span> MCPS Staff Exclusive</div>
+    <div class="title">Foodie <span>Friday</span></div>
+    <div class="date-line">Friday, April 24th, 2026</div>
+    <div class="divider"></div>
+
+    <div class="menu-card">
+      <div class="menu-label">This Week's Feature</div>
+      <div class="menu-item-name">Fried Chicken Sandwich<br>with Boardwalk Fries</div>
+      <div class="menu-desc">Crispy hand-breaded chicken sandwich served with golden boardwalk-style fries. Made fresh with Chef Papi's signature seasoning blend.</div>
+      <div class="price-tag"><span class="dollar">$</span>20</div>
+      <div class="options">
+        <div class="option-chip">Swap fries for kale salad <strong>FREE</strong></div>
+        <div class="option-chip">Add side kale salad <strong>+$5</strong></div>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-icon">&#128197;</div>
+        <div class="info-label">Order By</div>
+        <div class="info-value">Wednesday, April 22nd</div>
+        <div class="info-sub">11:59 PM</div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">&#128666;</div>
+        <div class="info-label">Delivery</div>
+        <div class="info-value">Friday, April 24th</div>
+        <div class="info-sub">10 AM – 1 PM</div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon" style="font-size: 20px; margin-bottom: 0;">
+          <!-- QR Code SVG for https://chefpapiscatering.com/foodie-friday -->
+          <svg id="qr" width="120" height="120" viewBox="0 0 120 120"></svg>
+        </div>
+        <div class="qr-label">Scan to Order</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">Chef Papi's Catering</div>
+      <div class="footer-text">@chefpapiscatering</div>
+      <div class="soy-free">&#127807; Soy-Free Kitchen</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+(function() {
+  const qr = qrcode(0, 'L');
+  qr.addData('https://chefpapiscatering.com/foodie-friday');
+  qr.make();
+
+  const svg = document.getElementById('qr');
+  const count = qr.getModuleCount();
+  const cellSize = 120 / (count + 2);
+  const offset = cellSize;
+
+  const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  bg.setAttribute('width', '120');
+  bg.setAttribute('height', '120');
+  bg.setAttribute('rx', '8');
+  bg.setAttribute('fill', '#FAF7F2');
+  svg.appendChild(bg);
+
+  for (let y = 0; y < count; y++) {
+    for (let x = 0; x < count; x++) {
+      if (qr.isDark(y, x)) {
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', (offset + x * cellSize).toFixed(2));
+        rect.setAttribute('y', (offset + y * cellSize).toFixed(2));
+        rect.setAttribute('width', (Math.ceil(cellSize * 100) / 100).toFixed(2));
+        rect.setAttribute('height', (Math.ceil(cellSize * 100) / 100).toFixed(2));
+        rect.setAttribute('fill', '#0a1628');
+        svg.appendChild(rect);
+      }
+    }
+  }
+})();
+</script>
+</body>
+</html>

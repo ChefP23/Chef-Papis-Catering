@@ -28,7 +28,7 @@ export default async function Home() {
         name: item.name,
         description: item.description || "",
         price: Number(item.price),
-        image: item.name.toLowerCase().includes("alfredo") ? "/images/alfredo.jpg" : "/images/jerk-chicken.jpg",
+        image: item.image_url || "/images/jerk-chicken.jpg",
         tag: item.school_district === "MCPS" ? "Montgomery County Public Schools" : item.school_district === "FCPS" ? "Frederick County Public Schools" : "All Districts",
       }))
     }
@@ -103,7 +103,7 @@ export default async function Home() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
             {[
-              { image: "/images/jerk-chicken.jpg", tag: "Weekly - Fridays", title: "Foodie Friday", desc: "Weekly lunch delivery to MCPS, FCPS, and Frederick County school staff. Order by Wednesday, delivered Friday 10AM-1PM.", link: "/foodie-friday", cta: "Order This Week" },
+              { image: "/images/fried-chicken-sandwich.svg", tag: "Weekly - Fridays", title: "Foodie Friday", desc: "Weekly lunch delivery to MCPS, FCPS, and Frederick County school staff. Order by Wednesday, delivered Friday 10AM-1PM.", link: "/foodie-friday", cta: "Order This Week" },
               { image: "/images/hero-bg.jpg", tag: "Events - Private", title: "Event Catering", desc: "School events, birthdays, and private celebrations across Montgomery, Frederick, and surrounding counties. Minimum $400.", link: "/catering", cta: "Request a Quote" },
               { image: "/images/gallery-3.jpg", tag: "Corporate - Teams - Clients", title: "Corporate Catering", desc: "Team lunches, client events, and recurring office catering. Custom menus, professional service, fair pricing.", link: "/corporate", cta: "Get a Quote" },
               { image: "/images/meal-prep.jpg", tag: "Weekly - Sunday Pickup", title: "Weekly Meal Prep", desc: "5 fresh meals every week. $100/week or save 25% with a 4-week commitment. Sunday pickup at 6PM.", link: "/meal-prep", cta: "Learn More" },

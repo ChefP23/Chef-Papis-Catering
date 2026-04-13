@@ -162,7 +162,7 @@ export default function FoodieFridayClient({ initialMenuItems, initialUser }: { 
                   <div key={item.id} style={{ background: '#fff', border: '1px solid rgba(45,74,62,0.12)', borderRadius: 20, overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: '0 2px 12px rgba(0,0,0,0.05)' }}>
                     <div style={{ height: 180, overflow: 'hidden' }}>
                       <img
-                        src={isAlfredo ? '/images/alfredo.jpg' : '/images/jerk-chicken.jpg'}
+                        src={item.image_url || '/images/jerk-chicken.jpg'}
                         alt={item.name}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
                       />
