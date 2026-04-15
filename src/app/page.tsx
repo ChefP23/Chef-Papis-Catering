@@ -109,8 +109,8 @@ export default async function Home() {
               { image: "/images/meal-prep.jpg", tag: "Weekly - Sunday Pickup", title: "Weekly Meal Prep", desc: "5 fresh meals every week. $100/week or save 25% with a 4-week commitment. Sunday pickup at 6PM.", link: "/meal-prep", cta: "Learn More" },
             ].map((s) => (
               <Link key={s.title} href={s.link} style={{ background: "#fff", borderRadius: 20, overflow: "hidden", textDecoration: "none", display: "block", border: "1px solid rgba(45,74,62,0.12)" }}>
-                <div style={{ height: 220, overflow: "hidden" }}>
-                  <img src={s.image} alt={s.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <div style={{ height: 220, overflow: "hidden", background: s.image.includes("fried-chicken") ? "#1a1a1a" : undefined, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img src={s.image} alt={s.title} style={{ width: "100%", height: "100%", objectFit: s.image.includes("fried-chicken") ? "contain" : "cover", display: "block" }} />
                 </div>
                 <div style={{ padding: 28, textAlign: "center" }}>
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#C49A2B", marginBottom: 10 }}>{s.tag}</div>
@@ -171,8 +171,8 @@ export default async function Home() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
             {displayMenu.map((item) => (
               <div key={item.name} style={{ background: "#fff", border: "1px solid rgba(45,74,62,0.12)", borderRadius: 16, overflow: "hidden" }}>
-                <div style={{ height: 200, overflow: "hidden" }}>
-                  <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <div style={{ height: 200, overflow: "hidden", background: item.image.includes("fried-chicken") ? "#1a1a1a" : undefined, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: item.image.includes("fried-chicken") ? "contain" : "cover", display: "block" }} />
                 </div>
                 <div style={{ padding: 20, textAlign: "center" }}>
                   <div style={{ fontFamily: "var(--font-playfair)", fontSize: 20, fontWeight: 700, color: "#2D4A3E", marginBottom: 6 }}>{item.name}</div>
