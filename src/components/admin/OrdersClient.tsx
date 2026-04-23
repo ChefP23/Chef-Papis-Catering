@@ -12,7 +12,7 @@ interface OrderItem {
   for_staff_name: string | null
 }
 
-interface Order {
+export interface Order {
   id: string
   order_number: string | null
   total: number | string

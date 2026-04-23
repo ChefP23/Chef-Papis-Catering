@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { OrdersClient } from '@/components/admin/OrdersClient'
+import { OrdersClient, type Order } from '@/components/admin/OrdersClient'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,8 +17,17 @@ export default async function AdminOrdersPage() {
     supabase.from('schools').select('id, name').order('name'),
   ])
 
-  // Supabase types relational joins as arrays; cast to the normalized shape OrdersClient expects.
-  const orders = (ordersRes.data ?? []) as unknown as Parameters<typeof OrdersClient>[0]['orders']
+  if (ordersRes.error) throw ordersRes.error
+  if (schoolsRes.error) throw schoolsRes.error
+
+  // Supabase may type relational joins as arrays; normalize each join to a single object or null.
+  const raw = ordersRes.data ?? []
+  const orders: Order[] = raw.map((row: any) => ({
+    ...row,
+    customers: Array.isArray(row.customers) ? (row.customers[0] ?? null) : (row.customers ?? null),
+    schools: Array.isArray(row.schools) ? (row.schools[0] ?? null) : (row.schools ?? null),
+    order_items: Array.isArray(row.order_items) ? row.order_items : [],
+  }))
   const schools = schoolsRes.data ?? []
 
   return (
